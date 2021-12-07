@@ -16,6 +16,7 @@
 @import "~bootstrap-select/sass/bootstrap-select.scss";
 // @import "~@fullcalendar/core/main.css";
 @import "~flag-icon-css/css/flag-icon.css";
+@import "~@fullcalendar/daygrid/main.css";
 @import "~vuetify/dist/vuetify.min.css";
 @import "~@mdi/font/scss/materialdesignicons.scss";
 // @import ag-grid-community style.
@@ -23,6 +24,11 @@
 @import "~ag-grid-community/dist/styles/ag-theme-alpine.css";
 // @import vue-loading-overlay style.
 @import "~vue-loading-overlay/dist/vue-loading.css";
+@import "~vue2-timepicker/dist/VueTimepicker.css";
+// @import "~vue-step-wizard/dist/vue-step-wizard.css";
+@import "~vue-form-wizard/dist/vue-form-wizard.min.css";
+@import "~vue2-dropzone/dist/vue2Dropzone.min.css";
+@import "~vue-phone-number-input/dist/vue-phone-number-input.css";
 .navbar-laravel {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -109,6 +115,12 @@
     }
 }
 
+.v-treeview-node__content {
+    .v-treeview-node__prepend+.v-treeview-node__label {
+        margin-right: 1em !important;
+    }
+}
+
 .swal2-container .swal2-content {
     display: flex;
     flex-direction: row;
@@ -129,6 +141,35 @@
             }
         }
     }
+}
+
+.form-group {
+    textarea {
+        resize: vertical;
+        min-height: 80px;
+        max-height: 200px;
+    }
+}
+
+.wizard-icon-container {
+    border-radius: 50% !important;
+}
+
+#ProjectDetail3>div:nth-child(1)>div:nth-child(3)>div>span>input {
+    width: 100%;
+    border-radius: 5px;
+    max-height: 36px;
+    height: 36px;
+    padding-right: 5px;
+}
+
+#ProjectDetail3>div:nth-child(1)>div:nth-child(3)>div>span>div.controls>span {
+    padding-right: 10px;
+}
+
+.vue-excel-editor{
+    max-width: 100%;
+    width: 100% !important;
 }
 
 @font-face {

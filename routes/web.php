@@ -16,19 +16,19 @@ Route::post('locale/{locale}', function ($locale){
     return response('Set locale already.',200);
 })->name('locale');
 
-Auth::routes(['verify' => true,'register' => false]);
+// Auth::routes(['verify' => true,'register' => false, 'login' => false]);
 
 Route::get('/', function () {
-    return redirect('/login');
+    return redirect('/BondInventory');
 });
 
-Route::get('/home', function () {
-    return redirect('/dashboard');
-});
+// Route::get('/home', function () {
+//     return redirect('/dashboard');
+// });
 
-Route::get('/users', function () {
-    return view('home');
-})->middleware(['auth','password.confirm']);
+// Route::get('/users', function () {
+//     return view('home');
+// })->middleware(['auth','password.confirm']);
 
 Route::get('/{vue_capture?}_window', function () {
     return view('portal')->with("title","Pick data");

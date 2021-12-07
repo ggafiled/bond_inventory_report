@@ -17,7 +17,7 @@ class DashboardController extends BaseController
      */
     public function __construct()
     {
-        $this->middleware('auth:api');
+        // $this->middleware('auth:api');
     }
 
     /**

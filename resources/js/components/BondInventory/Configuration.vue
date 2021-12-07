@@ -1,0 +1,207 @@
+<template>
+    <div class="card bg-gray-light col-sm-12" style="height: 420px">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <div class="row">
+                        <div
+                            class="card col-sm-12 col-xl-12 overflow-auto"
+                            style="height: 420px"
+                        >
+                            <div class="row sheet-panel">
+                                <div class="col-sm-6 m-0 p-0">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">
+                                                {{ translate('bondinventory.header_select_status') }}
+                                            </h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <div
+                                                    class="d-flex flex-row flex-wrap justify-space-between p-2"
+                                                >
+                                                    <div
+                                                        class="d-flex flex-column mr-4"
+                                                        v-for="(item,
+                                                        i) in statusList"
+                                                        :key="i"
+                                                    >
+                                                        <label>
+                                                            <input
+                                                                type="radio"
+                                                                :value="item"
+                                                                v-model="
+                                                                    selectedStatus
+                                                                "
+                                                            />
+                                                            <div class="box">
+                                                                <div
+                                                                    class="d-flex flex-column justify-content-center align-items-center"
+                                                                >
+                                                                    <i
+                                                                        class="far fa-folder-open fa-3x mb-2"
+                                                                    ></i>
+                                                                    <span
+                                                                        class="d-inline-block text-break p-1"
+                                                                        >{{
+                                                                            item
+                                                                        }}</span
+                                                                    >
+                                                                </div>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 m-0 p-0">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">
+                                                {{ translate('bondinventory.header_select_area') }}
+                                            </h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <div
+                                                    class="d-flex flex-row flex-wrap justify-space-between p-2"
+                                                >
+                                                    <div
+                                                        class="d-flex flex-column mr-4"
+                                                        v-for="(item,
+                                                        i) in areaList"
+                                                        :key="i"
+                                                    >
+                                                        <label>
+                                                            <input
+                                                                type="checkbox"
+                                                                :id="item"
+                                                                :value="item"
+                                                                v-model="
+                                                                    selectedArea
+                                                                "
+                                                            />
+                                                            <div class="box">
+                                                                <div
+                                                                    class="d-flex flex-column justify-content-center align-items-center"
+                                                                >
+                                                                    <i
+                                                                        class="fas fa-warehouse fa-3x mb-2"
+                                                                    ></i>
+                                                                    <span
+                                                                        class="d-inline-block text-break p-1"
+                                                                        >{{
+                                                                            item
+                                                                        }}</span
+                                                                    >
+                                                                </div>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    props: ["statusList", "areaList"],
+    components: {},
+    data() {
+        return {
+            selectedStatus: "",
+            selectedArea: []
+        };
+    },
+    methods: {
+        selectedFile(file) {
+            this.$emit("selectedFile", file);
+        },
+        removeFile() {
+            this.$refs.fileImport.removeAllFiles();
+        }
+    },
+    watch: {
+        statusList: function(newVal, oldVal) {
+            this.selectedStatus = this.statusList[0];
+        },
+        selectedStatus: function(newVal, oldVal) {
+            this.$emit("selectedStatus", newVal);
+        },
+        areaList: function(newVal, oldVal) {
+            this.selectedArea = this.areaList[0];
+        },
+        selectedArea: function(newVal, oldVal) {
+            this.$emit("selectedArea", newVal);
+        }
+    }
+};
+</script>
+<style scoped lang="scss">
+input[type="checkbox"], input[type="radio"] {
+    display: none;
+    &:checked {
+        + .box {
+            background-color: #da5555;
+            i {
+                color: white;
+            }
+            span {
+                color: white;
+                // transform: translateY(70px);
+                &:before {
+                    transform: translateY(0px);
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+.sheet-panel {
+    background-color: #f5f5f5;
+}
+.box {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background-color: #eeeeee;
+    border: 1px solid #8d90a0;
+    transition: all 250ms ease;
+    will-change: transition;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 900;
+    &:active {
+        transform: translateY(10px);
+        i {
+            color: white;
+        }
+        span {
+            color: white;
+        }
+    }
+    span {
+        left: 0;
+        right: 0;
+        transition: all 300ms ease;
+        user-select: none;
+        color: #aeaeae;
+    }
+}
+</style>

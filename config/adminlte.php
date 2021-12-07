@@ -14,7 +14,7 @@ return [
     |
      */
 
-    'title' => 'Starter Project',
+    'title' => 'Operation Services',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -254,35 +254,35 @@ return [
         ],
         ['header' => 'MENU'],
         [
-            'text' => 'dashboard',
-            'url' => '/dashboard',
-            'icon' => 'fas fa-fw bi bi-kanban',
+            'text' => 'Bond Inventory',
+            'url' => '/BondInventory',
+            'icon' => 'fas fa-fw fas fa-dolly-flatbed',
         ],
-        [
-            'text' => 'console_log',
-            'url' => '/console-log',
-            'icon' => 'mdi mdi-console',
-            'roles' => ["superadministrator", "administrator"],
-        ],
-        ['header' => 'user'],
-        [
-            'text' => 'user_information',
-            'url' => '/profile',
-            'icon' => 'fas fa-fw fa-user',
-            'can' => ['profile-update', 'profile-read', 'password-update'],
-        ],
-        [
-            'text' => 'user_role_permission',
-            'url' => '/permission',
-            'icon' => 'bi bi-layers',
-            'roles' => ['superadministrator', 'administrator'],
-        ],
-        [
-            'text' => 'user_management',
-            'url' => '/users',
-            'icon' => 'bi bi-person',
-            'roles' => ['superadministrator', 'administrator'],
-        ],
+        // [
+        //     'text' => 'console_log',
+        //     'url' => '/console-log',
+        //     'icon' => 'mdi mdi-console',
+        //     'roles' => ["superadministrator", "administrator"],
+        // ],
+        // ['header' => 'user'],
+        // [
+        //     'text' => 'user_information',
+        //     'url' => '/profile',
+        //     'icon' => 'fas fa-fw fa-user',
+        //     'can' => ['profile-update', 'profile-read', 'password-update'],
+        // ],
+        // [
+        //     'text' => 'user_role_permission',
+        //     'url' => '/permission',
+        //     'icon' => 'bi bi-layers',
+        //     'roles' => ['superadministrator', 'administrator'],
+        // ],
+        // [
+        //     'text' => 'user_management',
+        //     'url' => '/users',
+        //     'icon' => 'bi bi-person',
+        //     'roles' => ['superadministrator', 'administrator'],
+        // ],
     ],
 
     /*

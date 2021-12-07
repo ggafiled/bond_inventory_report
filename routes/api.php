@@ -30,6 +30,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->group(function () {
     Route::post('backup/actionBackup', 'BackupController@actionBackup');
     Route::post('change-password', 'ProfileController@changePassword');
     Route::get('permission/list', 'PermissionController@list');
+    Route::post('/import/getInfo', 'ImPortFileController@getInfo');
 
     Route::apiResources([
         'user' => 'UserController',
