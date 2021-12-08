@@ -5,7 +5,12 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Import ACA Report File</h3>
+                            <h3 class="card-title font-weight-bold">
+                                Import ACA Report File
+                            </h3>
+                            <div class="card-tools p-3" v-if="canShowWorkingOn">
+                                <h5 class="text-muted">Working on {{ selectedStatus }}</h5>
+                            </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body p-0 m-0">
@@ -14,7 +19,7 @@
                                 :title="null"
                                 :subtitle="null"
                                 nextButtonText="Continue"
-                                color="#4051B7"
+                                color="#ffca28"
                                 shape="eclipse"
                                 stepSize="xs"
                             >
@@ -49,7 +54,7 @@
                                     />
                                 </tab-content>
                                 <tab-content title="Review">
-                                    <Review :result="results" />
+                                    <Review ref="grid" :result="results" />
                                 </tab-content>
                                 <tab-content title="Export/Mail">
                                     <FinalView />
@@ -60,6 +65,7 @@
                                             v-if="props.activeTabIndex > 0"
                                             @click.native="props.prevTab()"
                                             :style="props.fillButtonStyle"
+                                            class="text-dark"
                                             >{{
                                                 translate("Previous")
                                             }}</wizard-button
@@ -69,17 +75,27 @@
                                         <wizard-button
                                             v-if="!props.isLastStep"
                                             @click.native="props.nextTab()"
-                                            class="wizard-footer-right"
+                                            class="wizard-footer-right text-dark"
                                             :style="props.fillButtonStyle"
-                                            >{{
-                                                translate("Next")
-                                            }}</wizard-button
-                                        >
+                                            >{{ translate("Next") }}
+                                        </wizard-button>
+                                        <wizard-button
+                                            v-if="
+                                                !props.isLastStep &&
+                                                    props.activeTabIndex != 0
+                                            "
+                                            @click.native="restart"
+                                            id="btn-cancel"
+                                            class="wizard-footer-right mr-1 bg-danger"
+                                            :style="props.fillButtonStyle"
+                                            >{{ translate("Cancel") }}
+                                        </wizard-button>
+
                                         <wizard-button
                                             v-show="props.isLastStep"
                                             class="wizard-footer-right finish-button"
                                             :style="props.fillButtonStyle"
-                                            :disabled="onprogress"
+                                            @click.native="restart"
                                         >
                                             <span
                                                 v-show="onprogress"
@@ -87,7 +103,7 @@
                                                 role="status"
                                                 aria-hidden="true"
                                             ></span>
-                                            {{ translate("Upload") }}
+                                            {{ translate("Done/Clear") }}
                                         </wizard-button>
                                     </div>
                                 </template>
@@ -118,12 +134,34 @@ export default {
         return {
             onprogress: false,
             spreadsheet: ["RLSE", "BRKR"],
-            areasheet: ["COY เก่า", "COY ใหม่", "Flyer", "NCY"],
+            areasheet: [
+                {
+                    title: "COY เก่า",
+                    subtitle: "A-A-1"
+                },
+                {
+                    title: "COY ใหม่",
+                    subtitle: "A-AA-1 "
+                },
+                {
+                    title: "Flyer",
+                    subtitle: "F-AA-1"
+                },
+                {
+                    title: "NCY",
+                    subtitle: "N-AA-1"
+                }
+            ],
             file: null,
             selectedStatus: "",
             selectedArea: [],
             results: []
         };
+    },
+    computed:{
+        canShowWorkingOn: function(){
+            return this.selectedStatus.length > 0 && this.$refs.wizard.activeTabIndex > 0;
+        }
     },
     methods: {
         async checkStepOne() {
@@ -179,8 +217,36 @@ export default {
             this.selectedArea = area;
         },
         removeFile() {
-            this.$refs.import.removeAllFiles();
+            this.$refs.import.$refs.fileImport.removeAllFiles();
             this.file = null;
+        },
+        restart() {
+            this.onprogress = false;
+            this.spreadsheet = ["RLSE", "BRKR"];
+            (this.areasheet = [
+                {
+                    title: "COY เก่า",
+                    subtitle: "A-A-1"
+                },
+                {
+                    title: "COY ใหม่",
+                    subtitle: "A-AA-1 "
+                },
+                {
+                    title: "Flyer",
+                    subtitle: "F-AA-1"
+                },
+                {
+                    title: "NCY",
+                    subtitle: "N-AA-1"
+                }
+            ]),
+                (this.selectedStatus = "");
+            this.selectedArea = [];
+            this.results = [];
+            this.removeFile();
+            this.$refs.wizard.navigateToTab(0);
+            this.$refs.wizard.reset();
         }
     },
     mounted() {
@@ -205,5 +271,8 @@ export default {
 <style lang="scss">
 .dz-progress {
     display: none;
+}
+#btn-cancel {
+    border-color: #c51f1a !important;
 }
 </style>

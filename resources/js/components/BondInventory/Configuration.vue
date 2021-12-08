@@ -13,7 +13,11 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <h3 class="card-title">
-                                                {{ translate('bondinventory.header_select_status') }}
+                                                {{
+                                                    translate(
+                                                        "bondinventory.header_select_status"
+                                                    )
+                                                }}
                                             </h3>
                                         </div>
                                         <div class="card-body">
@@ -61,7 +65,11 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <h3 class="card-title">
-                                                {{ translate('bondinventory.header_select_area') }}
+                                                {{
+                                                    translate(
+                                                        "bondinventory.header_select_area"
+                                                    )
+                                                }}
                                             </h3>
                                         </div>
                                         <div class="card-body">
@@ -78,8 +86,8 @@
                                                         <label>
                                                             <input
                                                                 type="checkbox"
-                                                                :id="item"
-                                                                :value="item"
+                                                                :id="item.title"
+                                                                :value="item.title"
                                                                 v-model="
                                                                     selectedArea
                                                                 "
@@ -94,7 +102,13 @@
                                                                     <span
                                                                         class="d-inline-block text-break p-1"
                                                                         >{{
-                                                                            item
+                                                                            item.title
+                                                                        }}</span
+                                                                    >
+                                                                    <span
+                                                                        class="d-inline-block text-break p-1"
+                                                                        >{{
+                                                                            item.subtitle
                                                                         }}</span
                                                                     >
                                                                 </div>
@@ -146,11 +160,16 @@ export default {
         selectedArea: function(newVal, oldVal) {
             this.$emit("selectedArea", newVal);
         }
+    },
+    created(){
+        this.selectedStatus = this.statusList[0];
+        this.selectedArea = [this.areaList[0].title];
     }
 };
 </script>
 <style scoped lang="scss">
-input[type="checkbox"], input[type="radio"] {
+input[type="checkbox"],
+input[type="radio"] {
     display: none;
     &:checked {
         + .box {
@@ -159,6 +178,15 @@ input[type="checkbox"], input[type="radio"] {
                 color: white;
             }
             span {
+                color: white;
+                // transform: translateY(70px);
+                &:before {
+                    transform: translateY(0px);
+                    opacity: 1;
+                }
+            }
+
+            small {
                 color: white;
                 // transform: translateY(70px);
                 &:before {
@@ -189,14 +217,11 @@ input[type="checkbox"], input[type="radio"] {
     font-weight: 900;
     &:active {
         transform: translateY(10px);
-        i {
-            color: white;
-        }
-        span {
+        i, span, small {
             color: white;
         }
     }
-    span {
+    span, small {
         left: 0;
         right: 0;
         transition: all 300ms ease;

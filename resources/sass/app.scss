@@ -35,7 +35,7 @@
 }
 
 .router-link-exact-active {
-    background-color: #4051b7 !important;
+    background-color: #FFCC00 !important;
     color: white !important;
 }
 
@@ -170,6 +170,18 @@
 .vue-excel-editor{
     max-width: 100%;
     width: 100% !important;
+}
+
+#customdropzone .dz-preview .dz-details {
+    background-color: #ffd54f !important;
+    transition: opacity 0.2s linear;
+    text-align: center;
+}
+
+.stepTitle{
+    &.active {
+        color: black !important;
+    }
 }
 
 @font-face {

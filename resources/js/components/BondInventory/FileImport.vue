@@ -11,15 +11,18 @@
                                     style="height: 360px"
                                 >
                                     <vue-dropzone
-                                            ref="fileImport"
-                                            id="fileImport"
-                                            :options="dropzoneOptions"
-                                            v-on:vdropzone-file-added="selectedFile"
-                                            v-on:vdropzone-queue-complete="completeProgress"
-                                        ></vue-dropzone>
+                                        ref="fileImport"
+                                        id="customdropzone"
+                                        :options="dropzoneOptions"
+                                        v-on:vdropzone-file-added="selectedFile"
+                                        v-on:vdropzone-queue-complete="
+                                            completeProgress
+                                        "
+                                    ></vue-dropzone>
                                     <p class="p-1">
-                                        *Supported file formats are .txt .csv Maximum file size allowed is 10MB
-                                        (Megea Bytes).
+                                        *Supported file formats are .txt .csv
+                                        Maximum file size allowed is 10MB (Megea
+                                        Bytes).
                                     </p>
                                 </div>
                             </div>
@@ -29,7 +32,8 @@
                             <div class="form-group">
                                 <div class="card d-none d-xl-block">
                                     <div
-                                        class="card-header text-white bg-danger"
+                                        class="card-header text-white"
+                                        style="background-color: #D30511;"
                                     >
                                         <h4>File Import</h4>
                                     </div>
@@ -64,16 +68,17 @@ export default {
                 maxFiles: 1,
                 duplicateCheck: true,
                 addRemoveLinks: true,
-                acceptedFiles:".csv,.txt",
-                dictDefaultMessage: "<div class='row g-1'><div class='col-md-4 flex-grow-1 m-0 p-0'><img src='/images/folder.png'/></div><div class='col-md-6'><div class='card-body'><br /><br /><br /><h1>Click or Drop</h1><p class='normal'style='color: Gray'>To upload your files</p></div></div></div>"
+                acceptedFiles: ".csv,.txt",
+                dictDefaultMessage:
+                    "<div class='row g-1'><div class='col-md-4 flex-grow-1 m-0 p-0'><img src='/images/folder.png'/></div><div class='col-md-6'><div class='card-body'><br /><br /><br /><h1>Click or Drop</h1><p class='normal'style='color: Gray'>To upload your files</p></div></div></div>"
             }
         };
     },
     methods: {
-        selectedFile(file){
-            this.$emit('selectedFile', file);
+        selectedFile(file) {
+            this.$emit("selectedFile", file);
         },
-        removeFile(){
+        removeFile() {
             this.$refs.fileImport.removeAllFiles();
         },
         completeProgress() {
