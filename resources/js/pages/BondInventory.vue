@@ -8,8 +8,8 @@
                             <h3 class="card-title font-weight-bold">
                                 Import ACA Report File
                             </h3>
-                            <div class="card-tools p-3" v-if="canShowWorkingOn">
-                                <h5 class="text-muted">Working on {{ selectedStatus }}</h5>
+                            <div class="card-tools justify-content-center align-items-center" v-if="canShowWorkingOn">
+                                <p class="font-weight-bold text-muted py-2 m-0 mr-1 my-auto">Working on {{ selectedStatus }} \ {{ selectedArea.join(", ") }}</p>
                             </div>
                         </div>
                         <!-- /.card-header -->
