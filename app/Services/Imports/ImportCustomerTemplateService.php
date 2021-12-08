@@ -2,7 +2,9 @@
 
 namespace App\Services\Imports;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
+use PhpParser\ErrorHandler\Collecting;
 
 class ImportCustomerTemplateService
 {
@@ -27,7 +29,7 @@ class ImportCustomerTemplateService
     {
         /** This medthod for filter only RLSE status */
 
-        $spreadsheet = array();
+        $spreadsheet = new Collection();
         if ($_file = fopen($file, "r")) {
             while (!feof($_file)) {
                 $line = fgets($_file);
@@ -48,12 +50,19 @@ class ImportCustomerTemplateService
                             "Bond Reason" => substr($line, 109, 21),
                         );
     
-                        array_push($spreadsheet, $record);
+                        $spreadsheet->push($record);
                     }
                 }
             }
             fclose($_file);
         }
+
+        // Filter Status and Only selected location
+        $spreadsheet = $spreadsheet->filter(function ($item){
+            return preg_match("/[a-zA-Z]{1}\/RLS4/", $item["Status"]);
+        });
+
+        $spreadsheet = $spreadsheet->sortBy('Location')->values()->all(); // Sort record by location A-Z
 
         return ["results" => $spreadsheet, "bondArea" => $bond_area];
     }
@@ -62,7 +71,7 @@ class ImportCustomerTemplateService
     {
         /** This medthod for filter only BRKR status */
    
-        $spreadsheet = array();
+        $spreadsheet = new Collection();
         if ($_file = fopen($file, "r")) {
             while (!feof($_file)) {
                 $line = fgets($_file);
@@ -84,12 +93,19 @@ class ImportCustomerTemplateService
                             "Bond Reason" => substr($line, 109, 21),
                         );
     
-                        array_push($spreadsheet, $record);
+                        $spreadsheet->push($record);
                     }
                 }
             }
             fclose($_file);
         }
+
+        // Filter Status and Only selected location
+        $spreadsheet = $spreadsheet->filter(function ($item){
+            return preg_match("/[a-zA-Z]{1}\/BRKR/", $item["Status"]);
+        });
+
+        $spreadsheet = $spreadsheet->sortBy('Location')->values()->all(); // Sort record by location A-Z
 
         return ["results" => $spreadsheet, "bondArea" => $bond_area];
     }

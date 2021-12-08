@@ -49,11 +49,10 @@
                                     />
                                 </tab-content>
                                 <tab-content title="Review">
-                                    <Review 
-                                        :result="results"/>
+                                    <Review :result="results" />
                                 </tab-content>
                                 <tab-content title="Export/Mail">
-                                    <!-- <ReviewUpload /> -->
+                                    <FinalView />
                                 </tab-content>
                                 <template slot="footer" slot-scope="props">
                                     <div class="wizard-footer-left">
@@ -105,11 +104,15 @@
 import FileImport from "../components/BondInventory/FileImport.vue";
 import Configuration from "../components/BondInventory/Configuration.vue";
 import Review from "../components/BondInventory/Review.vue";
+import FinalView from "../components/BondInventory/FinalView.vue";
+
 export default {
+    title: "Bond Inventory -",
     components: {
         FileImport,
         Configuration,
-        Review
+        Review,
+        FinalView
     },
     data() {
         return {
@@ -134,7 +137,11 @@ export default {
             return true;
         },
         async checkStepTwo() {
-            if (this.file == null || this.selectedStatus.trim() == "" || this.selectedArea.length == 0) {
+            if (
+                this.file == null ||
+                this.selectedStatus.trim() == "" ||
+                this.selectedArea.length == 0
+            ) {
                 Toast.fire({
                     icon: "error",
                     title: translate("bondinventory.alert_not_import_file_yet")
