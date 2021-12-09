@@ -34,11 +34,11 @@ export default {
     data() {
         return {
             buttons: [
-                {
-                    title: "Export",
-                    icon: "mdi mdi-24px mdi-export-variant",
-                    action: () => this.exportTable()
-                },
+                // {
+                //     title: "Export",
+                //     icon: "mdi mdi-24px mdi-export-variant",
+                //     action: () => this.exportTable()
+                // },
                 {
                     title: "Print",
                     icon: "mdi mdi-24px mdi-printer-wireless",

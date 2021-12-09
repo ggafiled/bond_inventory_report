@@ -6,7 +6,8 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title font-weight-bold mb-0">
-                                Import ACA Report File
+                                <i class="fas fa-dolly-flatbed mr-2"></i>
+                                {{ translate('Bond Inventory Report') }}
                             </h3>
                             <div
                                 class="card-tools justify-content-center align-items-center p-0 m-0"

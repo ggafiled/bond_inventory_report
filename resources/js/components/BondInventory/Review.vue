@@ -6,6 +6,12 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">{{ translate("Preview result") }}</div>
+                            <div class="card-tools">
+                                <v-btn @click="exportTable">
+                                    <i class="mdi mdi-24px mdi-export-variant mr-2"></i>
+                                    Export
+                                </v-btn>
+                            </div>
                         </div>
                         <div class="card-body m-0 p-1">
                             <vue-excel-editor ref="grid" id="grid" filter-row v-model="result">
