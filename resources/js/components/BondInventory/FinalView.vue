@@ -54,11 +54,7 @@ export default {
     },
     methods: {
         exportTable(){
-            console.log("exportTable");
-            const format = "xlsx";
-            const exportSelectedOnly = false;
-            const filename = "result";
-            this.$refs.grid.$refs.grid.exportTable(format, exportSelectedOnly, filename);
+            this.$emit('export-to-excel');
         }
     }
 };

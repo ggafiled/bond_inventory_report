@@ -68,10 +68,10 @@
                                     />
                                 </tab-content>
                                 <tab-content title="Review">
-                                    <Review ref="grid" :result="results" />
+                                    <Review ref="review" :result="results" @table-generated="tableGenerated"/>
                                 </tab-content>
                                 <tab-content title="Export/Mail">
-                                    <FinalView />
+                                    <FinalView @export-to-excel="exportTable"/>
                                 </tab-content>
                                 <template slot="footer" slot-scope="props">
                                     <div class="wizard-footer-left">
@@ -106,7 +106,7 @@
 
                                         <wizard-button
                                             v-show="props.isLastStep"
-                                            class="wizard-footer-right finish-button"
+                                            class="wizard-footer-right finish-button text-dark"
                                             :style="props.fillButtonStyle"
                                             @click.native="restart"
                                         >
@@ -173,7 +173,8 @@ export default {
             file: null,
             selectedStatus: "",
             selectedArea: [],
-            results: []
+            results: [],
+            grid: null
         };
     },
     computed: {
@@ -290,6 +291,16 @@ export default {
             this.removeFile();
             this.$refs.wizard.navigateToTab(0);
             this.$refs.wizard.reset();
+        },
+        tableGenerated(grid){
+            this.grid = grid;
+        },
+        exportTable(){
+            console.log("aaaaaa");
+            const format = "xlsx";
+            const exportSelectedOnly = false;
+            const filename = "result";
+            this.grid.exportTable(format, exportSelectedOnly, filename);
         }
     },
     mounted() {
