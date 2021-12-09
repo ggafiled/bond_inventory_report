@@ -19,10 +19,8 @@
                                             completeProgress
                                         "
                                     ></vue-dropzone>
-                                    <p class="p-1">
-                                        *Supported file formats are .txt .csv
-                                        Maximum file size allowed is 10MB (Megea
-                                        Bytes).
+                                    <p class="p-2 m-0 justify-content-center align-items-center">
+                                        {{ translate('bondinventory.footer_informed_upload_support') }}
                                     </p>
                                 </div>
                             </div>
@@ -33,7 +31,7 @@
                                 <div class="card d-none d-xl-block">
                                     <div
                                         class="card-header text-white"
-                                        style="background-color: #D30511;"
+                                        style="background-color: #A9343B;"
                                     >
                                         <h4>File Import</h4>
                                     </div>
@@ -43,6 +41,21 @@
                                             the file directly to this left
                                             section will start the import
                                             process for your transactions.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="card d-none d-xl-block">
+                                    <div
+                                        class="card-header text-white"
+                                        style="background-color: #A9343B;"
+                                    >
+                                        <h4>Simple Data</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            Can export the report from ACA.
                                         </p>
                                     </div>
                                 </div>

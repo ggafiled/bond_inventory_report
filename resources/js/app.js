@@ -112,6 +112,23 @@
 
  import VueExcelEditor from 'vue-excel-editor';
  Vue.use(VueExcelEditor);
+
+ import {
+    // Directives
+    VTooltip,
+    VClosePopper,
+    // Components
+    Dropdown,
+    Tooltip,
+    Menu
+  } from 'v-tooltip';
+  
+  Vue.directive('tooltip', VTooltip);
+  Vue.directive('close-popper', VClosePopper);
+  
+  Vue.component('VDropdown', Dropdown);
+  Vue.component('VTooltip', Tooltip);
+  Vue.component('VMenu', Menu);
  
  Vue.component(HasError.name, HasError);
  Vue.component(AlertError.name, AlertError);

@@ -82,12 +82,29 @@
                                                         v-for="(item,
                                                         i) in areaList"
                                                         :key="i"
+                                                        v-tooltip.bottom="{
+                                                            content:
+                                                                item.tooltip,
+                                                            offset: 100,
+                                                            classes: ['tooltip-info'],
+                                                            targetClasses: [
+                                                                'it-has-a-tooltip'
+                                                            ],
+                                                            delay: {
+                                                                show: 500
+                                                            },
+                                                            autoHide: true,
+                                                            handleResize: true,
+                                                            html: true
+                                                        }"
                                                     >
                                                         <label>
                                                             <input
                                                                 type="checkbox"
                                                                 :id="item.title"
-                                                                :value="item.title"
+                                                                :value="
+                                                                    item.title
+                                                                "
                                                                 v-model="
                                                                     selectedArea
                                                                 "
@@ -97,7 +114,7 @@
                                                                     class="d-flex flex-column justify-content-center align-items-center"
                                                                 >
                                                                     <i
-                                                                        class="fas fa-warehouse fa-3x mb-2"
+                                                                        class="mdi mdi-48px mdi-warehouse mb-2"
                                                                     ></i>
                                                                     <span
                                                                         class="d-inline-block text-break p-1"
@@ -155,15 +172,18 @@ export default {
             this.$emit("selectedStatus", newVal);
         },
         areaList: function(newVal, oldVal) {
-            this.selectedArea = this.areaList[0];
+            this.selectedArea = [newVal[0].title];
         },
         selectedArea: function(newVal, oldVal) {
             this.$emit("selectedArea", newVal);
         }
     },
-    created(){
+    mounted() {
         this.selectedStatus = this.statusList[0];
         this.selectedArea = [this.areaList[0].title];
+
+        this.$emit("selectedStatus", this.selectedStatus);
+        this.$emit("selectedArea", this.selectedArea);
     }
 };
 </script>
@@ -217,11 +237,14 @@ input[type="radio"] {
     font-weight: 900;
     &:active {
         transform: translateY(10px);
-        i, span, small {
+        i,
+        span,
+        small {
             color: white;
         }
     }
-    span, small {
+    span,
+    small {
         left: 0;
         right: 0;
         transition: all 300ms ease;

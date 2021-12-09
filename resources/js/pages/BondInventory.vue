@@ -5,11 +5,25 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title font-weight-bold">
+                            <h3 class="card-title font-weight-bold mb-0">
                                 Import ACA Report File
                             </h3>
-                            <div class="card-tools justify-content-center align-items-center" v-if="canShowWorkingOn">
-                                <p class="font-weight-bold text-muted py-2 m-0 mr-1 my-auto">Working on {{ selectedStatus }} \ {{ selectedArea.join(", ") }}</p>
+                            <div
+                                class="card-tools justify-content-center align-items-center p-0 m-0"
+                                v-if="canShowWorkingOn"
+                            >
+                                <div
+                                    class="font-weight-bold text-muted justify-content-center align-items-center p-0 m-0 mr-1 my-auto"
+                                >
+                                    <i
+                                        id="icon-working"
+                                        class="mdi mdi-18px mdi-image-filter-center-focus-weak mr-1 text-success font-weight-bold blink"
+                                    ></i>
+                                    {{ translate('bondinventory.header_working_on') }} {{ selectedStatus }}
+                                    <span v-if="selectedArea.length">
+                                        {{ "\\ " + selectedArea.join(", ") }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -20,7 +34,7 @@
                                 :subtitle="null"
                                 nextButtonText="Continue"
                                 color="#ffca28"
-                                shape="eclipse"
+                                shape="tab"
                                 stepSize="xs"
                             >
                                 <wizard-step
@@ -47,8 +61,8 @@
                                     :before-change="checkStepTwo"
                                 >
                                     <Configuration
-                                        :statusList="spreadsheet"
-                                        :areaList="areasheet"
+                                        :statusList="statusList"
+                                        :areaList="areaList"
                                         @selectedStatus="selectedStatusHandler"
                                         @selectedArea="selectedAreaHandler"
                                     />
@@ -67,7 +81,7 @@
                                             :style="props.fillButtonStyle"
                                             class="text-dark"
                                             >{{
-                                                translate("Previous")
+                                                translate("bondinventory.button.step_previous")
                                             }}</wizard-button
                                         >
                                     </div>
@@ -77,18 +91,17 @@
                                             @click.native="props.nextTab()"
                                             class="wizard-footer-right text-dark"
                                             :style="props.fillButtonStyle"
-                                            >{{ translate("Next") }}
+                                            >{{ translate("bondinventory.button.step_next") }}
                                         </wizard-button>
                                         <wizard-button
                                             v-if="
                                                 !props.isLastStep &&
                                                     props.activeTabIndex != 0
                                             "
-                                            @click.native="restart"
+                                            @click.native="cancel"
                                             id="btn-cancel"
-                                            class="wizard-footer-right mr-1 bg-danger"
-                                            :style="props.fillButtonStyle"
-                                            >{{ translate("Cancel") }}
+                                            class="wizard-footer-right mr-3 btn-outline-danger"
+                                            >{{ translate("bondinventory.button.step_cancel") }}
                                         </wizard-button>
 
                                         <wizard-button
@@ -103,7 +116,7 @@
                                                 role="status"
                                                 aria-hidden="true"
                                             ></span>
-                                            {{ translate("Done/Clear") }}
+                                            {{ translate("bondinventory.button.step_done") }}
                                         </wizard-button>
                                     </div>
                                 </template>
@@ -121,6 +134,7 @@ import FileImport from "../components/BondInventory/FileImport.vue";
 import Configuration from "../components/BondInventory/Configuration.vue";
 import Review from "../components/BondInventory/Review.vue";
 import FinalView from "../components/BondInventory/FinalView.vue";
+import anime from "animejs/lib/anime.es.js";
 
 export default {
     title: "Bond Inventory -",
@@ -133,23 +147,27 @@ export default {
     data() {
         return {
             onprogress: false,
-            spreadsheet: ["RLSE", "BRKR"],
-            areasheet: [
+            statusList: ["RLSE", "BRKR"],
+            areaList: [
                 {
-                    title: "COY เก่า",
-                    subtitle: "A-A-1"
+                    title: "COY Old",
+                    subtitle: "A-A-1",
+                    tooltip: "COY Zone on the left side.<br/>It has been stored at shield id start with A-A-1 to Z-Z-1"
                 },
                 {
-                    title: "COY ใหม่",
-                    subtitle: "A-AA-1 "
+                    title: "COY New",
+                    subtitle: "A-AA-1 ",
+                    tooltip: "COY Zone on the front side.<br/>It has been stored at shield id start with A-AA-1 to Z-ZZ-1"
                 },
                 {
                     title: "Flyer",
-                    subtitle: "F-AA-1"
+                    subtitle: "F-AA-1",
+                    tooltip: "Area of Flyer Zone has shield id<br/>start with F-A-1 to F-Z-1"
                 },
                 {
                     title: "NCY",
-                    subtitle: "N-AA-1"
+                    subtitle: "N-AA-1",
+                    tooltip: "Area of large shipment has been <br/> stored on the first floor."
                 }
             ],
             file: null,
@@ -158,9 +176,12 @@ export default {
             results: []
         };
     },
-    computed:{
-        canShowWorkingOn: function(){
-            return this.selectedStatus.length > 0 && this.$refs.wizard.activeTabIndex > 0;
+    computed: {
+        canShowWorkingOn: function() {
+            return (
+                this.selectedStatus.length > 0 &&
+                this.$refs.wizard.activeTabIndex > 0
+            );
         }
     },
     methods: {
@@ -220,10 +241,32 @@ export default {
             this.$refs.import.$refs.fileImport.removeAllFiles();
             this.file = null;
         },
+        cancel(){
+            Swal.fire({
+                title: window.translate(
+                    "bondinventory.alert_comfirm_to_cancel"
+                ),
+                text: window.translate("bondinventory.alert_subtitle_comfirm_to_cancel"),
+                showCancelButton: true,
+                confirmButtonColor: "#DA5555",
+                cancelButtonColor: "#3085d6",
+                cancelButtonText: window.translate(
+                    "bondinventory.button.cancel_button_text"
+                ),
+                confirmButtonText: window.translate(
+                    "bondinventory.button.confirm_button_text"
+                )
+            }).then(result => {
+                // Send request to the server
+                if (result.value) {
+                    this.restart();
+                }
+            });
+        },
         restart() {
             this.onprogress = false;
-            this.spreadsheet = ["RLSE", "BRKR"];
-            (this.areasheet = [
+            this.statusList = ["RLSE", "BRKR"];
+            this.areaList = [
                 {
                     title: "COY เก่า",
                     subtitle: "A-A-1"
@@ -240,8 +283,8 @@ export default {
                     title: "NCY",
                     subtitle: "N-AA-1"
                 }
-            ]),
-                (this.selectedStatus = "");
+            ];
+            this.selectedStatus = "";
             this.selectedArea = [];
             this.results = [];
             this.removeFile();
@@ -274,5 +317,20 @@ export default {
 }
 #btn-cancel {
     border-color: #c51f1a !important;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.0;
+  }
+}
+@-webkit-keyframes blink {
+  50% {
+    opacity: 0.0;
+  }
+}
+.blink {
+  animation: blink 1s step-start 0s infinite;
+  -webkit-animation: blink 1s step-start 0s infinite;
 }
 </style>

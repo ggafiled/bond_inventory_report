@@ -29,13 +29,14 @@
 @import "~vue-form-wizard/dist/vue-form-wizard.min.css";
 @import "~vue2-dropzone/dist/vue2Dropzone.min.css";
 @import "~vue-phone-number-input/dist/vue-phone-number-input.css";
+@import "~v-tooltip/dist/v-tooltip.css";
 .navbar-laravel {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .router-link-exact-active {
-    background-color: #FFCC00 !important;
+    background-color: #d6ae11 !important;
     color: white !important;
 }
 
@@ -116,7 +117,7 @@
 }
 
 .v-treeview-node__content {
-    .v-treeview-node__prepend+.v-treeview-node__label {
+    .v-treeview-node__prepend + .v-treeview-node__label {
         margin-right: 1em !important;
     }
 }
@@ -151,11 +152,11 @@
     }
 }
 
-.wizard-icon-container {
-    border-radius: 50% !important;
-}
+// .wizard-icon-container {
+//     border-radius: 50% !important;
+// }
 
-#ProjectDetail3>div:nth-child(1)>div:nth-child(3)>div>span>input {
+#ProjectDetail3 > div:nth-child(1) > div:nth-child(3) > div > span > input {
     width: 100%;
     border-radius: 5px;
     max-height: 36px;
@@ -163,31 +164,59 @@
     padding-right: 5px;
 }
 
-#ProjectDetail3>div:nth-child(1)>div:nth-child(3)>div>span>div.controls>span {
+#ProjectDetail3
+    > div:nth-child(1)
+    > div:nth-child(3)
+    > div
+    > span
+    > div.controls
+    > span {
     padding-right: 10px;
 }
 
-.vue-excel-editor{
+.vue-excel-editor {
     max-width: 100%;
     width: 100% !important;
 }
 
 #customdropzone .dz-preview .dz-details {
-    background-color: #ffd54f !important;
+    background-color: #a9343b !important;
     transition: opacity 0.2s linear;
     text-align: center;
 }
 
-.stepTitle{
+// #customdropzone > div {
+//     display: flex !important;
+//     justify-content: space-around !important;
+//     align-items: center !important;
+// }
+
+#customdropzone > div > span > div {
+    justify-content: space-around !important;
+}
+
+.stepTitle {
     &.active {
         color: black !important;
+
+        i {
+            color: black !important;
+        }
     }
+}
+
+.tooltip-info {
+    text-align: center;
 }
 
 @font-face {
     font-family: "fontello";
     src: url("/fonts/fontello.eot");
-    src: url("/fonts/fontello.eot") format("embedded-opentype"), url("/fonts/fontello.woff2") format("woff2"), url("/fonts/fontello.woff") format("woff"), url("/fonts/fontello.ttf") format("truetype"), url("/fonts/fontello.svg") format("svg");
+    src: url("/fonts/fontello.eot") format("embedded-opentype"),
+        url("/fonts/fontello.woff2") format("woff2"),
+        url("/fonts/fontello.woff") format("woff"),
+        url("/fonts/fontello.ttf") format("truetype"),
+        url("/fonts/fontello.svg") format("svg");
     font-weight: normal;
     font-style: normal;
 }

@@ -114,6 +114,7 @@
         "select2": "^4.1.0-rc.0",
         "sweetalert2": "^9.17.2",
         "v-select2-component": "^0.4.7",
+        "v-tooltip": "^3.0.0-beta.1",
         "vform": "^1.0.1",
         "vue-chartjs": "^3.5.1",
         "vue-excel-editor": "^1.5.5",
