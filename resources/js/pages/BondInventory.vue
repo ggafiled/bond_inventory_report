@@ -7,7 +7,7 @@
                         <div class="card-header">
                             <h3 class="card-title font-weight-bold mb-0">
                                 <i class="fas fa-dolly-flatbed mr-2"></i>
-                                {{ translate('Bond Inventory Report') }}
+                                {{ translate("Bond Inventory Report") }}
                             </h3>
                             <div
                                 class="card-tools justify-content-center align-items-center p-0 m-0"
@@ -20,7 +20,12 @@
                                         id="icon-working"
                                         class="mdi mdi-18px mdi-image-filter-center-focus-weak mr-1 text-success font-weight-bold blink"
                                     ></i>
-                                    {{ translate('bondinventory.header_working_on') }} {{ selectedStatus }}
+                                    {{
+                                        translate(
+                                            "bondinventory.header_working_on"
+                                        )
+                                    }}
+                                    {{ selectedStatus }}
                                     <span v-if="selectedArea.length">
                                         {{ "\\ " + selectedArea.join(", ") }}
                                     </span>
@@ -69,10 +74,14 @@
                                     />
                                 </tab-content>
                                 <tab-content title="Review">
-                                    <Review ref="review" :result="results" @table-generated="tableGenerated"/>
+                                    <Review
+                                        ref="review"
+                                        :result="results"
+                                        @table-generated="tableGenerated"
+                                    />
                                 </tab-content>
                                 <tab-content title="Export/Mail">
-                                    <FinalView @export-to-excel="exportTable"/>
+                                    <FinalView :results="results" :columns="columns"/>
                                 </tab-content>
                                 <template slot="footer" slot-scope="props">
                                     <div class="wizard-footer-left">
@@ -82,7 +91,9 @@
                                             :style="props.fillButtonStyle"
                                             class="text-dark"
                                             >{{
-                                                translate("bondinventory.button.step_previous")
+                                                translate(
+                                                    "bondinventory.button.step_previous"
+                                                )
                                             }}</wizard-button
                                         >
                                     </div>
@@ -92,7 +103,11 @@
                                             @click.native="props.nextTab()"
                                             class="wizard-footer-right text-dark"
                                             :style="props.fillButtonStyle"
-                                            >{{ translate("bondinventory.button.step_next") }}
+                                            >{{
+                                                translate(
+                                                    "bondinventory.button.step_next"
+                                                )
+                                            }}
                                         </wizard-button>
                                         <wizard-button
                                             v-if="
@@ -102,7 +117,11 @@
                                             @click.native="cancel"
                                             id="btn-cancel"
                                             class="wizard-footer-right mr-3 btn-outline-danger"
-                                            >{{ translate("bondinventory.button.step_cancel") }}
+                                            >{{
+                                                translate(
+                                                    "bondinventory.button.step_cancel"
+                                                )
+                                            }}
                                         </wizard-button>
 
                                         <wizard-button
@@ -117,7 +136,11 @@
                                                 role="status"
                                                 aria-hidden="true"
                                             ></span>
-                                            {{ translate("bondinventory.button.step_done") }}
+                                            {{
+                                                translate(
+                                                    "bondinventory.button.step_done"
+                                                )
+                                            }}
                                         </wizard-button>
                                     </div>
                                 </template>
@@ -153,29 +176,59 @@ export default {
                 {
                     title: "COY Old",
                     subtitle: "A-A-1",
-                    tooltip: "COY Zone on the left side.<br/>It has been stored at shield id start with A-A-1 to Z-Z-1"
+                    tooltip:
+                        "COY Zone on the left side.<br/>It has been stored at shield id start with A-A-1 to Z-Z-1"
                 },
                 {
                     title: "COY New",
                     subtitle: "A-AA-1 ",
-                    tooltip: "COY Zone on the front side.<br/>It has been stored at shield id start with A-AA-1 to Z-ZZ-1"
+                    tooltip:
+                        "COY Zone on the front side.<br/>It has been stored at shield id start with A-AA-1 to Z-ZZ-1"
                 },
                 {
                     title: "Flyer",
                     subtitle: "F-AA-1",
-                    tooltip: "Area of Flyer Zone has shield id<br/>start with F-A-1 to F-Z-1"
+                    tooltip:
+                        "Area of Flyer Zone has shield id<br/>start with F-A-1 to F-Z-1"
                 },
                 {
                     title: "NCY",
                     subtitle: "N-AA-1",
-                    tooltip: "Area of large shipment has been <br/> stored on the first floor."
+                    tooltip:
+                        "Area of large shipment has been <br/> stored on the first floor."
                 }
             ],
             file: null,
             selectedStatus: "",
             selectedArea: [],
             results: [],
-            grid: null
+            grid: null,
+            columns: [
+                {
+                    label: "HAWB",
+                    field: "HAWB"
+                },
+                {
+                    label: "Location",
+                    field: "Location"
+                },
+                {
+                    label: "Weight",
+                    field: "Weight"
+                },
+                {
+                    label: "Pcs",
+                    field: "Pcs"
+                },
+                {
+                    label: "Scanned",
+                    field: "Scanned"
+                },
+                {
+                    label: "Status",
+                    field: "Status"
+                }
+            ]
         };
     },
     computed: {
@@ -219,7 +272,7 @@ export default {
                     .post("/import/getInfo", form, { headers })
                     .then(response => {
                         // console.log(response.data.data);
-                        this.results = response.data.data.fileInfo.results;
+                        this.results = JSON.parse(response.data.data.fileInfo.results);
                         // this.file = null;
                         // this.$refs.import.removeFile();
                         this.$refs.import.$emit("vdropzone-queue-complete");
@@ -243,12 +296,14 @@ export default {
             this.$refs.import.$refs.fileImport.removeAllFiles();
             this.file = null;
         },
-        cancel(){
+        cancel() {
             Swal.fire({
                 title: window.translate(
                     "bondinventory.alert_comfirm_to_cancel"
                 ),
-                text: window.translate("bondinventory.alert_subtitle_comfirm_to_cancel"),
+                text: window.translate(
+                    "bondinventory.alert_subtitle_comfirm_to_cancel"
+                ),
                 showCancelButton: true,
                 confirmButtonColor: "#DA5555",
                 cancelButtonColor: "#3085d6",
@@ -293,10 +348,10 @@ export default {
             this.$refs.wizard.navigateToTab(0);
             this.$refs.wizard.reset();
         },
-        tableGenerated(grid){
+        tableGenerated(grid) {
             this.grid = grid;
         },
-        exportTable(){
+        exportTable() {
             console.log("aaaaaa");
             const format = "xlsx";
             const exportSelectedOnly = false;
@@ -332,17 +387,17 @@ export default {
 }
 
 @keyframes blink {
-  50% {
-    opacity: 0.0;
-  }
+    50% {
+        opacity: 0;
+    }
 }
 @-webkit-keyframes blink {
-  50% {
-    opacity: 0.0;
-  }
+    50% {
+        opacity: 0;
+    }
 }
 .blink {
-  animation: blink 1s step-start 0s infinite;
-  -webkit-animation: blink 1s step-start 0s infinite;
+    animation: blink 1s step-start 0s infinite;
+    -webkit-animation: blink 1s step-start 0s infinite;
 }
 </style>

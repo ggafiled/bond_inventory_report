@@ -54,27 +54,29 @@ class ImportCustomerTemplateService
                 $line = fgets($_file);
                 if (trim($line)) {
                     if (preg_match_all('/[0-9]{10}/', substr($line, 0, 10))) {
-                        $record = array(
-                            "HAWB" => substr($line, 0, 10),
-                            "Location" => substr($line, 10, 10),
-                            "Arrival" => substr($line, 20, 10),
-                            "Days" => substr($line, 30, 5),
-                            "Consignee" => substr($line, 35, 31),
-                            "Orig" => substr($line, 66, 5),
-                            "Dest" => substr($line, 72, 8),
-                            "Weight" => substr($line, 79, 8),
-                            "Pcs" => substr($line, 87, 6),
-                            "Scanned" => substr($line, 92, 9),
-                            "Status" => substr($line, 101, 8),
-                            "Bond Reason" => substr($line, 109, 21),
+                        $spreadsheet->push(
+                            [
+                                "HAWB" => substr($line, 0, 10),
+                                "Location" => substr($line, 10, 10),
+                                "Arrival" => substr($line, 20, 10),
+                                "Days" => substr($line, 30, 5),
+                                "Consignee" => substr($line, 35, 31),
+                                "Orig" => substr($line, 66, 5),
+                                "Dest" => substr($line, 72, 8),
+                                "Weight" => substr($line, 79, 8),
+                                "Pcs" => substr($line, 87, 6),
+                                "Scanned" => substr($line, 92, 9),
+                                "Status" => substr($line, 101, 8),
+                                "Bond Reason" => substr($line, 109, 21),
+                            ],
                         );
-
-                        $spreadsheet->push($record);
                     }
                 }
             }
             fclose($_file);
         }
+
+        // dd($spreadsheet->toJson());
 
         // Filter Status and Only selected location
         $spreadsheet = $spreadsheet->filter(function ($item) {
@@ -83,7 +85,7 @@ class ImportCustomerTemplateService
 
         $spreadsheet = ImportCustomerTemplateService::filterByLocation($spreadsheet, $bond_area);
 
-        $spreadsheet = $spreadsheet->sortBy('Location')->values()->all(); // Sort record by location A-Z
+        $spreadsheet = $spreadsheet->sortBy('Location')->values()->toJson(); // Sort record by location A-Z
 
         return ["results" => $spreadsheet, "bondArea" => $bond_area];
     }
@@ -99,22 +101,22 @@ class ImportCustomerTemplateService
                 if (trim($line)) {
                     // $line = str_replace("\r\n", '', $line);
                     if (preg_match_all('/[0-9]{10}/', substr(trim($line), 0, 10))) {
-                        $record = array(
-                            "HAWB" => substr($line, 0, 10),
-                            "Location" => substr($line, 10, 10),
-                            "Arrival" => substr($line, 20, 10),
-                            "Days" => substr($line, 30, 5),
-                            "Consignee" => substr($line, 35, 31),
-                            "Orig" => substr($line, 66, 5),
-                            "Dest" => substr($line, 72, 8),
-                            "Weight" => substr($line, 79, 8),
-                            "Pcs" => substr($line, 87, 6),
-                            "Scanned" => substr($line, 92, 9),
-                            "Status" => substr($line, 101, 8),
-                            "Bond Reason" => substr($line, 109, 21),
+                        $spreadsheet->push(
+                            [
+                                "HAWB" => substr($line, 0, 10),
+                                "Location" => substr($line, 10, 10),
+                                "Arrival" => substr($line, 20, 10),
+                                "Days" => substr($line, 30, 5),
+                                "Consignee" => substr($line, 35, 31),
+                                "Orig" => substr($line, 66, 5),
+                                "Dest" => substr($line, 72, 8),
+                                "Weight" => substr($line, 79, 8),
+                                "Pcs" => substr($line, 87, 6),
+                                "Scanned" => substr($line, 92, 9),
+                                "Status" => substr($line, 101, 8),
+                                "Bond Reason" => substr($line, 109, 21),
+                            ],
                         );
-
-                        $spreadsheet->push($record);
                     }
                 }
             }
@@ -128,7 +130,7 @@ class ImportCustomerTemplateService
 
         $spreadsheet = ImportCustomerTemplateService::filterByLocation($spreadsheet, $bond_area);
 
-        $spreadsheet = $spreadsheet->sortBy('Location')->values()->all(); // Sort record by location A-Z
+        $spreadsheet = $spreadsheet->sortBy('Location')->values()->toJson(); // Sort record by location A-Z
 
         return ["results" => $spreadsheet, "bondArea" => $bond_area];
     }

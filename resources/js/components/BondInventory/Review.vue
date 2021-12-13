@@ -5,16 +5,17 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <div class="card-title">{{ translate("Preview result") }}</div>
-                            <div class="card-tools">
-                                <v-btn @click="exportTable">
-                                    <i class="mdi mdi-24px mdi-export-variant mr-2"></i>
-                                    Export
-                                </v-btn>
+                            <div class="card-title">
+                                {{ translate("Preview result") }}
                             </div>
                         </div>
                         <div class="card-body m-0 p-1">
-                            <vue-excel-editor ref="grid" id="grid" filter-row v-model="result">
+                            <vue-excel-editor
+                                ref="grid"
+                                id="grid"
+                                filter-row
+                                v-model="result"
+                            >
                                 <vue-excel-column field="HAWB" label="HAWB" />
                                 <vue-excel-column
                                     field="Location"
@@ -62,15 +63,15 @@
 <script>
 export default {
     props: ["result"],
-    methods:{
-        exportTable(){
+    methods: {
+        exportTable() {
             const format = "xlsx";
             const exportSelectedOnly = false;
             const filename = "result";
             this.$refs.grid.exportTable(format, exportSelectedOnly, filename);
         }
     },
-    mounted(){
+    mounted() {
         this.$emit("table-generated", this.$refs.grid);
     }
 };

@@ -209,6 +209,20 @@
     text-align: center;
 }
 
+#tableExport {
+
+    tr,
+    th,
+    td {
+        border: 1px solid black;
+    }
+
+    .mw-100 {
+        min-width: 100px;
+        width: 100px;
+    }
+}
+
 @font-face {
     font-family: "fontello";
     src: url("/fonts/fontello.eot");
