@@ -34,5 +34,9 @@ return [
         'success' => 'Backup database successful.',
         'failed' =>  'Can not backup database, Try again.',
     ],
+    'loading' => [
+        'wait' => 'Please wait a moment',
+        'waitdata' => 'Loading related information'
+    ]
 
 ];
