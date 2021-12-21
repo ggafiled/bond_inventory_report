@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);/*!
+/*!
  *   AdminLTE v3.0.5
  *   Author: Colorlib
  *   Website: AdminLTE.io <http://adminlte.io>
@@ -82774,6 +82774,10 @@ select.selectpicker {
   text-align: center;
 }
 
+#tableExport {
+  font-size: 22px;
+}
+
 #tableExport tr,
 #tableExport th,
 #tableExport td {
@@ -82789,6 +82793,14 @@ select.selectpicker {
   font-family: "fontello";
   src: url("/fonts/fontello.eot");
   src: url("/fonts/fontello.eot") format("embedded-opentype"), url("/fonts/fontello.woff2") format("woff2"), url("/fonts/fontello.woff") format("woff"), url("/fonts/fontello.ttf") format("truetype"), url("/fonts/fontello.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("/fonts/nunito.ttf");
+  src: url("/fonts/fontello.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }

@@ -44,7 +44,7 @@ const Toast = Swal.mixin({
 
 const LoadingWait = Swal.mixin({
     html: `<div id="LoadingWait_container" style="align-items: center; display: -ms-flexbox;display: -webkit-flex;display: flex;align-items: center;width: 100%;">
-     <img src="https://raw.githubusercontent.com/ggafiled/vue-crud-fisrt-mile-system/main/public/images/loading.gif" width="68px" height="68px"/>
+     <img src="/images/loading.gif" width="68px" height="68px"/>
      <div id="LoadingWaitText"><h3 class="p-0 m-0">`+ translate('actions.loading.wait') +`...</h3><small class="text-muted">`+ translate('actions.loading.waitdata') +`</small></div>
      </div>`,
     showCancelButton: false,

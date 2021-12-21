@@ -26,10 +26,10 @@ class ImportCustomerTemplateService
     public static function filterByLocation($spreadsheet = null, $bond_area = null)
     {
         $areaList = array(
-            "COY Old" => "[a-zA-z]{1}-[a-zA-z]{1}-[0-9]{1}",
-            "COY New" => "(?![nfNF])[a-zA-Z]{1}-[a-zA-z]{2}-[0-9]{1}",
-            "Flyer" => "F-[a-zA-z]{2}-[0-9]{1}",
-            "NCY" => "N-[a-zA-z]{2}-[0-9]{1}",
+            "COY Old" => "([a-zA-z]{1}-[a-zA-z]{1}-[0-9]{1})|(E-[a-zA-z]{2}-[0-9]{1})", // All format A-A-1 and E-AA-1 edit on 21/12/2564
+            "COY New" => "(?![nfeNFE])[a-zA-Z]{1}-[a-zA-z]{2}-[0-9]{1}", // All format A-AA-1 except N-AA-1 and E-AA-1 edit on 21/12/2564
+            "Flyer" => "F-(?![nN])[a-zA-z]{2}-[0-9]{1}", // All F-AA-1 except F-NA-1 edit on 21/12/2564
+            "NCY" => "(N-[a-zA-z]{2}-[0-9]{1})|(F-N[a-zA-Z]{1}-[0-9]{1})", // Only N-AA-1 and F-NA-1 edit on 21/12/2564
         );
 
         $regex = "";
@@ -80,7 +80,7 @@ class ImportCustomerTemplateService
 
         // Filter Status and Only selected location
         $spreadsheet = $spreadsheet->filter(function ($item) {
-            return preg_match("/[a-zA-Z]{1}\/RLS4/", $item["Status"]);
+            return preg_match("/[a-zA-Z]{1}\/RLS[E0-9]?/", $item["Status"]); // 21/12/2564
         });
 
         $spreadsheet = ImportCustomerTemplateService::filterByLocation($spreadsheet, $bond_area);

@@ -70,6 +70,7 @@
 
 <script>
 export default {
+    props: ["forceRender"],
     data() {
         return {
             dropzoneOptions: {

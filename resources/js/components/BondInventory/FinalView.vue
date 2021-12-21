@@ -55,6 +55,7 @@
                                 <td class="mw-100">{{ i + 1 }}</td>
                                 <td>{{ item.HAWB }}</td>
                                 <td>{{ item.Location }}</td>
+                                <td>{{ item.Consignee }}</td>
                                 <td>{{ item.Weight }}</td>
                                 <td class="mw-100">{{ item.Pcs }}</td>
                                 <td class="mw-100">{{ item.Scanned }}</td>
@@ -72,7 +73,7 @@
 import moment from "moment";
 export default {
     title: "Final View -",
-    props: ["results", "columns"],
+    props: ["forceRender", "results", "columns"],
     data() {
         return {
             data() {

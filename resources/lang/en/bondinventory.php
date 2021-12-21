@@ -27,6 +27,7 @@ return [
         'step_next' => 'Next',
         'step_cancel' => 'Cancel',
         'step_done' => 'Done/Clear',
+        'select_all' => 'Select All'
     ]
 
 ];

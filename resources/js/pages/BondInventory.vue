@@ -58,6 +58,7 @@
                                 >
                                     <FileImport
                                         ref="import"
+                                        :forceRender="forceRender"
                                         @selectedFile="selectedFile"
                                         @vdropzone-removed-file="removeFile"
                                     />
@@ -67,6 +68,7 @@
                                     :before-change="checkStepTwo"
                                 >
                                     <Configuration
+                                        :forceRender="forceRender"
                                         :statusList="statusList"
                                         :areaList="areaList"
                                         @selectedStatus="selectedStatusHandler"
@@ -76,12 +78,17 @@
                                 <tab-content title="Review">
                                     <Review
                                         ref="review"
+                                        :forceRender="forceRender"
                                         :result="results"
                                         @table-generated="tableGenerated"
                                     />
                                 </tab-content>
                                 <tab-content title="Export/Mail">
-                                    <FinalView :results="results" :columns="columns"/>
+                                    <FinalView
+                                        :forceRender="forceRender"
+                                        :results="results"
+                                        :columns="columns"
+                                    />
                                 </tab-content>
                                 <template slot="footer" slot-scope="props">
                                     <div class="wizard-footer-left">
@@ -171,11 +178,12 @@ export default {
     data() {
         return {
             onprogress: false,
+            forceRender: true,
             statusList: ["RLSE", "BRKR"],
             areaList: [
                 {
                     title: "COY Old",
-                    subtitle: "A-A-1",
+                    subtitle: "A-A-1, E-AA-1",
                     tooltip:
                         "COY Zone on the left side.<br/>It has been stored at shield id start with A-A-1 to Z-Z-1"
                 },
@@ -193,7 +201,7 @@ export default {
                 },
                 {
                     title: "NCY",
-                    subtitle: "N-AA-1",
+                    subtitle: "N-AA-1, F-NA-1",
                     tooltip:
                         "Area of large shipment has been <br/> stored on the first floor."
                 }
@@ -211,6 +219,10 @@ export default {
                 {
                     label: "Location",
                     field: "Location"
+                },
+                {
+                    label: "Consignee Name",
+                    field: "Consignee"
                 },
                 {
                     label: "Weight",
@@ -251,14 +263,22 @@ export default {
             return true;
         },
         async checkStepTwo() {
-            if (
-                this.file == null ||
-                this.selectedStatus.trim() == "" ||
-                this.selectedArea.length == 0
-            ) {
+            if (this.file == null) {
                 Toast.fire({
                     icon: "error",
                     title: translate("bondinventory.alert_not_import_file_yet")
+                });
+                return false;
+            } else if (this.selectedStatus.trim() == "") {
+                Toast.fire({
+                    icon: "error",
+                    title: translate("initails status can't be set")
+                });
+                return false;
+            } else if (this.selectedArea.length == 0) {
+                Toast.fire({
+                    icon: "error",
+                    title: translate("initails area can't be set")
                 });
                 return false;
             } else {
@@ -272,7 +292,9 @@ export default {
                     .post("/import/getInfo", form, { headers })
                     .then(response => {
                         // console.log(response.data.data);
-                        this.results = JSON.parse(response.data.data.fileInfo.results);
+                        this.results = JSON.parse(
+                            response.data.data.fileInfo.results
+                        );
                         // this.file = null;
                         // this.$refs.import.removeFile();
                         this.$refs.import.$emit("vdropzone-queue-complete");
@@ -287,6 +309,7 @@ export default {
             this.file = file;
         },
         selectedStatusHandler(status) {
+            console.log("selectedStatusHandler: " + status);
             this.selectedStatus = status;
         },
         selectedAreaHandler(area) {
@@ -322,41 +345,27 @@ export default {
         },
         restart() {
             this.onprogress = false;
-            this.statusList = ["RLSE", "BRKR"];
-            this.areaList = [
-                {
-                    title: "COY เก่า",
-                    subtitle: "A-A-1"
-                },
-                {
-                    title: "COY ใหม่",
-                    subtitle: "A-AA-1 "
-                },
-                {
-                    title: "Flyer",
-                    subtitle: "F-AA-1"
-                },
-                {
-                    title: "NCY",
-                    subtitle: "N-AA-1"
-                }
-            ];
-            this.selectedStatus = "";
-            this.selectedArea = [];
+            this.statusList = this.statusList;
+            this.areaList = this.areaList;
+            this.selectedStatus = this.statusList[0];
+            this.selectedArea = [this.areaList[0].title];
             this.results = [];
             this.removeFile();
             this.$refs.wizard.navigateToTab(0);
             this.$refs.wizard.reset();
+            this.forceRender = !this.forceRender;
+            window.location.reload();
         },
         tableGenerated(grid) {
             this.grid = grid;
         },
         exportTable() {
-            console.log("aaaaaa");
+            console.log("initial generate file.");
             const format = "xlsx";
             const exportSelectedOnly = false;
             const filename = "result";
             this.grid.exportTable(format, exportSelectedOnly, filename);
+            console.log("generated file.");
         }
     },
     mounted() {

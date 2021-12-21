@@ -20,7 +20,7 @@
                                                 }}
                                             </h3>
                                         </div>
-                                        <div class="card-body">
+                                        <div class="card-body panel-custom">
                                             <div class="form-group">
                                                 <div
                                                     class="d-flex flex-row flex-wrap justify-space-between p-2"
@@ -71,8 +71,24 @@
                                                     )
                                                 }}
                                             </h3>
+                                            <div class="card-tools">
+                                                <div class="form-check">
+                                                    <input
+                                                        type="checkbox"
+                                                        v-model="selectAll"
+                                                    />
+                                                    <label
+                                                        class="form-check-label"
+                                                        >{{
+                                                            translate(
+                                                                "bondinventory.button.select_all"
+                                                            )
+                                                        }}</label
+                                                    >
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="card-body">
+                                        <div class="card-body panel-custom">
                                             <div class="form-group">
                                                 <div
                                                     class="d-flex flex-row flex-wrap justify-space-between p-2"
@@ -86,7 +102,9 @@
                                                             content:
                                                                 item.tooltip,
                                                             offset: 100,
-                                                            classes: ['tooltip-info'],
+                                                            classes: [
+                                                                'tooltip-info'
+                                                            ],
                                                             targetClasses: [
                                                                 'it-has-a-tooltip'
                                                             ],
@@ -148,7 +166,7 @@
 
 <script>
 export default {
-    props: ["statusList", "areaList"],
+    props: ["forceRender", "statusList", "areaList"],
     components: {},
     data() {
         return {
@@ -178,6 +196,26 @@ export default {
             this.$emit("selectedArea", newVal);
         }
     },
+    computed: {
+        selectAll: {
+            get: function() {
+                return this.areaList
+                    ? this.selectedArea.length == this.areaList.length
+                    : false;
+            },
+            set: function(value) {
+                var selected = [];
+                if (value) {
+                    this.areaList.forEach(area => {
+                        selected.push(area.title);
+                    });
+                    this.selectedArea = selected;
+                }else{
+                    this.selectedArea = [this.areaList[0].title];
+                }
+            }
+        }
+    },
     mounted() {
         this.selectedStatus = this.statusList[0];
         this.selectedArea = [this.areaList[0].title];
@@ -188,30 +226,32 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-input[type="checkbox"],
-input[type="radio"] {
-    display: none;
-    &:checked {
-        + .box {
-            background-color: #da5555;
-            i {
-                color: white;
-            }
-            span {
-                color: white;
-                // transform: translateY(70px);
-                &:before {
-                    transform: translateY(0px);
-                    opacity: 1;
+.panel-custom {
+    input[type="checkbox"],
+    input[type="radio"] {
+        display: none;
+        &:checked {
+            + .box {
+                background-color: #da5555;
+                i {
+                    color: white;
                 }
-            }
+                span {
+                    color: white;
+                    // transform: translateY(70px);
+                    &:before {
+                        transform: translateY(0px);
+                        opacity: 1;
+                    }
+                }
 
-            small {
-                color: white;
-                // transform: translateY(70px);
-                &:before {
-                    transform: translateY(0px);
-                    opacity: 1;
+                small {
+                    color: white;
+                    // transform: translateY(70px);
+                    &:before {
+                        transform: translateY(0px);
+                        opacity: 1;
+                    }
                 }
             }
         }

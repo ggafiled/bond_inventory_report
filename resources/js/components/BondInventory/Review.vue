@@ -62,7 +62,7 @@
 
 <script>
 export default {
-    props: ["result"],
+    props: ["forceRender","result"],
     methods: {
         exportTable() {
             const format = "xlsx";

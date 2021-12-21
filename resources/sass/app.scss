@@ -1,5 +1,5 @@
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Nunito");
+// @import url("https://fonts.googleapis.com/css?family=Nunito");
 // Variables
 @import "variables";
 // Bootstrap
@@ -211,6 +211,8 @@
 
 #tableExport {
 
+    font-size: 22px;
+
     tr,
     th,
     td {
@@ -234,3 +236,12 @@
     font-weight: normal;
     font-style: normal;
 }
+
+@font-face {
+    font-family: "Nunito";
+    src: url("/fonts/nunito.ttf");
+    src: url("/fonts/fontello.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
