@@ -30,11 +30,28 @@
                                                         v-for="(item,
                                                         i) in statusList"
                                                         :key="i"
+                                                        v-tooltip.bottom="{
+                                                            content:
+                                                                item.tooltip,
+                                                            offset: 100,
+                                                            classes: [
+                                                                'tooltip-info'
+                                                            ],
+                                                            targetClasses: [
+                                                                'it-has-a-tooltip'
+                                                            ],
+                                                            delay: {
+                                                                show: 500
+                                                            },
+                                                            autoHide: true,
+                                                            handleResize: true,
+                                                            html: true
+                                                        }"
                                                     >
                                                         <label>
                                                             <input
                                                                 type="radio"
-                                                                :value="item"
+                                                                :value="item.title"
                                                                 v-model="
                                                                     selectedStatus
                                                                 "
@@ -49,7 +66,7 @@
                                                                     <span
                                                                         class="d-inline-block text-break p-1"
                                                                         >{{
-                                                                            item
+                                                                            item.title
                                                                         }}</span
                                                                     >
                                                                 </div>
@@ -184,7 +201,7 @@ export default {
     },
     watch: {
         statusList: function(newVal, oldVal) {
-            this.selectedStatus = this.statusList[0];
+            this.selectedStatus = newVal[0].title;
         },
         selectedStatus: function(newVal, oldVal) {
             this.$emit("selectedStatus", newVal);
@@ -217,7 +234,7 @@ export default {
         }
     },
     mounted() {
-        this.selectedStatus = this.statusList[0];
+        this.selectedStatus = this.statusList[0].title;
         this.selectedArea = [this.areaList[0].title];
 
         this.$emit("selectedStatus", this.selectedStatus);

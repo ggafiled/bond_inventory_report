@@ -1,5 +1,5 @@
 <template>
-  <table class="table table-striped table-bordered" ref="items" id="items">
+  <table class="table table-striped table-bordered w-100" ref="items" id="items">
     <thead>
       <tr>
         <th>NO</th>
@@ -161,7 +161,7 @@ export default {
             targets: 0,
             searchable: false,
             orderable: false,
-            className: "dt-body-center",
+            className: "dt-body-center text-center",
             checkboxes: {
               selectRow: true,
             },

@@ -1,65 +1,145 @@
 <template>
-  <section class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">
-                <i class="bi bi-gear mr-1"></i>{{ translate("System Configuration") }}
-              </h3>
-              <div class="card-tools">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-primary"
-                  @click="newModal"
-                >
-                  <i class="fa fa-plus-square"></i>
-                  {{ translate("user.addnew") }}
-                </button>
-              </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="bi bi-gear mr-1"></i
+                                >{{ translate("System Configuration") }}
+                            </h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-2">
+                            <ul class="nav nav-tabs">
+                                <li>
+                                    <a
+                                        data-toggle="tab"
+                                        href="#statusconfig"
+                                        class="nav-link active"
+                                        >Status Configuration
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        data-toggle="tab"
+                                        href="#zoneconfig"
+                                        class="nav-link"
+                                        >Zone Configuration
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="statusconfig" class="tab-pane active">
+                                    <section
+                                        style="height: 70vh !important; padding: 3; margin: 0;"
+                                    >
+                                        <StatusConfig>
+                                        </StatusConfig>
+                                    </section>
+                                </div>
+                                <div id="zoneconfig" class="tab-pane">
+                                    <section
+                                        style="height: 65vh !important; padding: 3; margin: 0;"
+                                    >
+                                        <ZoneConfig>
+                                        </ZoneConfig>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body table-responsive p-2">
-
-            </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 </template>
 
 <script>
+import StatusConfig from "../components/SystemConfig/StatusConfig.vue";
+import ZoneConfig from "../components/SystemConfig/ZoneConfig.vue";
 export default {
-  title: "System Configuration -",
-  data() {
-    return {
-      form: new Form({
-        id: "",
-        role: "",
-        name: "",
-        email: "",
-        password: "",
-        email_verified_at: "",
-        account_status: 1,
-      }),
-    };
-  },
-  methods: {
-  },
-  created() {
-    this.$Progress.start();
-    LoadingWait.fire();
-    // to do
-    this.$Progress.finish();
-  },
-  mounted() {
-    setTimeout(() => {
-      LoadingWait.close();
-    }, 2000);
-  },
+    title: "System Configuration -",
+    components: {
+        StatusConfig,
+        ZoneConfig
+    },
+    data() {
+        return {
+            tab: "statusconfig"
+        };
+    },
+    methods: {
+        activaTab(tab, vm = this) {
+            if ($('.nav-tabs a[href="#' + tab + '"]').length) {
+                $('.nav-tabs a[href="#' + tab + '"]').tab("show");
+            } else {
+                const urlParams = new URLSearchParams(window.location.search);
+                urlParams.set(
+                    "tab",
+                    $(".nav-tabs a")
+                        .first()
+                        .attr("href")
+                        .toString()
+                        .replace("#", "")
+                );
+                if (history.pushState) {
+                    var newurl =
+                        window.location.protocol +
+                        "//" +
+                        window.location.host +
+                        window.location.pathname +
+                        "?" +
+                        urlParams;
+                    window.history.pushState({ path: newurl }, "", newurl);
+                }
+                $(".nav-tabs a")
+                    .first()
+                    .tab("show");
+            }
+        },
+        deactivaTab(tab) {
+            $(".nav-tabs a").removeClass("active");
+        }
+    },
+    created() {
+        this.$Progress.start();
+        // LoadingWait.fire();
+        // to do
+        this.$Progress.finish();
+    },
+    mounted() {
+        // setTimeout(() => {
+        //   LoadingWait.close();
+        // }, 2000);
+        this.deactivaTab();
+        this.activaTab(this.$route.query.tab);
+        $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
+            var target = $(e.target)
+                .attr("href")
+                .replace("#", ""); // activated tab
+            const urlParams = new URLSearchParams();
+            urlParams.set("tab", target);
+            if (history.pushState) {
+                var newurl =
+                    window.location.protocol +
+                    "//" +
+                    window.location.host +
+                    window.location.pathname +
+                    "?" +
+                    urlParams;
+                window.history.pushState({ path: newurl }, "", newurl);
+            }
+            if (target == "gis") {
+                vm.map.resize();
+            }
+        });
+    },
+    unmounted() {
+        this.deactivaTab();
+    }
 };
 </script>

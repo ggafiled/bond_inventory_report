@@ -10,13 +10,17 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
-Route::post('locale/{locale}', function ($locale){
+ */
+Route::post('locale/{locale}', function ($locale) {
     Session::put('locale', $locale);
-    return response('Set locale already.',200);
+    return response('Set locale already.', 200);
 })->name('locale');
 
-// Auth::routes(['verify' => true,'register' => false, 'login' => false]);
+Auth::routes([
+    'reset' => false,
+    'verify' => false,
+    'register' => false, 
+    'login' => true]);
 
 Route::get('/', function () {
     return redirect('/BondInventory');
@@ -31,9 +35,9 @@ Route::get('/', function () {
 // })->middleware(['auth','password.confirm']);
 
 Route::get('/{vue_capture?}_window', function () {
-    return view('portal')->with("title","Pick data");
+    return view('portal')->with("title", "Pick data");
 })->where('vue_capture', '[\/\w\.-]*');
 
 Route::get('/{vue_capture?}', function () {
-    return view('home')->with("title","Fist Mile ERP System");
+    return view('home')->with("title", "Fist Mile ERP System");
 })->where('vue_capture', '[\/\w\.-]*');

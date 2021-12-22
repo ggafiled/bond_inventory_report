@@ -61,7 +61,8 @@
                                         :forceRender="forceRender"
                                         @selectedFile="selectedFile"
                                         @vdropzone-removed-file="removeFile"
-                                    />
+                                    >
+                                    </FileImport>
                                 </tab-content>
                                 <tab-content
                                     title="Configuration"
@@ -73,7 +74,8 @@
                                         :areaList="areaList"
                                         @selectedStatus="selectedStatusHandler"
                                         @selectedArea="selectedAreaHandler"
-                                    />
+                                    >
+                                    </Configuration>
                                 </tab-content>
                                 <tab-content title="Review">
                                     <Review
@@ -81,14 +83,16 @@
                                         :forceRender="forceRender"
                                         :result="results"
                                         @table-generated="tableGenerated"
-                                    />
+                                    >
+                                    </Review>
                                 </tab-content>
                                 <tab-content title="Export/Mail">
                                     <FinalView
                                         :forceRender="forceRender"
                                         :results="results"
                                         :columns="columns"
-                                    />
+                                    >
+                                    </FinalView>
                                 </tab-content>
                                 <template slot="footer" slot-scope="props">
                                     <div class="wizard-footer-left">
@@ -179,33 +183,8 @@ export default {
         return {
             onprogress: false,
             forceRender: true,
-            statusList: ["RLSE", "BRKR"],
-            areaList: [
-                {
-                    title: "COY Old",
-                    subtitle: "A-A-1, E-AA-1",
-                    tooltip:
-                        "COY Zone on the left side.<br/>It has been stored at shield id start with A-A-1 to Z-Z-1. <br/> And E-AA-1 location"
-                },
-                {
-                    title: "COY New",
-                    subtitle: "A-AA-1, CLD",
-                    tooltip:
-                        "COY Zone on the front side.<br/>It has been stored at shield id start with A-AA-1 to Z-ZZ-1 <br/> And Freeze Zone starting with CLD"
-                },
-                {
-                    title: "Flyer",
-                    subtitle: "F-AA-1",
-                    tooltip:
-                        "Area of Flyer Zone has shield id<br/>start with F-A-1 to F-Z-1"
-                },
-                {
-                    title: "NCY",
-                    subtitle: "N-AA-1, F-NA-1, OT-CIB",
-                    tooltip:
-                        "Area of large shipment has been <br/> stored on the first floor."
-                }
-            ],
+            statusList: null,
+            areaList: null,
             file: null,
             selectedStatus: "",
             selectedArea: [],
@@ -252,6 +231,16 @@ export default {
         }
     },
     methods: {
+        async loadStatusList() {
+            await axios
+                .get("/bondstatus")
+                .then(({ data }) => (this.statusList = data.data));
+        },
+        async loadZoneList() {
+            await axios
+                .get("/bondzone")
+                .then(({ data }) => (this.areaList = data.data));
+        },
         async checkStepOne() {
             if (this.file == null) {
                 Toast.fire({
@@ -347,7 +336,7 @@ export default {
             this.onprogress = false;
             this.statusList = this.statusList;
             this.areaList = this.areaList;
-            this.selectedStatus = this.statusList[0];
+            this.selectedStatus = this.statusList[0].title;
             this.selectedArea = [this.areaList[0].title];
             this.results = [];
             this.removeFile();
@@ -368,7 +357,9 @@ export default {
             console.log("generated file.");
         }
     },
-    mounted() {
+    async mounted() {
+        await this.loadStatusList();
+        await this.loadZoneList();
         var vm = this;
         window.onbeforeunload = function(e) {
             if (vm.file || vm.file.length > 0) {

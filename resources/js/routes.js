@@ -13,13 +13,13 @@ export default [
         //     requiresAuth: true
         // }
     },
-    // {
-    //     path: "/SystemConfig",
-    //     component: require("./pages/SystemConfig.vue").default
-    //     // meta: {
-    //     //     requiresAuth: true
-    //     // }
-    // },
+    {
+        path: "/SystemConfig",
+        component: require("./pages/SystemConfig.vue").default,
+        // meta: {
+        //     requiresAuth: true
+        // }
+    },
     // {
     //     path: "/console-log",
     //     component: require("./pages/consolelog/ConsoleLog.vue").default,

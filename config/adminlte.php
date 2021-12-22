@@ -258,11 +258,12 @@ return [
             'url' => '/BondInventory',
             'icon' => 'fas fa-fw fas fa-dolly-flatbed',
         ],
-        // [
-        //     'text' => 'System Configuration',
-        //     'url' => '/SystemConfig',
-        //     'icon' => 'fas fa-fw fas bi bi-gear',
-        // ],
+        [
+            'text' => 'System Configuration',
+            'url' => '/SystemConfig',
+            'icon' => 'fas fa-fw fas bi bi-gear',
+            'active_url' => 'SystemConfig'
+        ],
         // [
         //     'text' => 'console_log',
         //     'url' => '/console-log',

@@ -39,6 +39,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->group(function () {
         'dashboard' => 'DashboardController',
         'backup' => 'BackupController',
         'logs' => 'LogsController',
-        'bonds' => 'BondConfigController'
+        'bondstatus' => 'BondStatusConfigController',
+        'bondzone' => 'BondZoneConfigController'
     ]);
 });
