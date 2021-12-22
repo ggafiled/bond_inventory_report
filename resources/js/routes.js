@@ -8,7 +8,7 @@ export default [
     // },
     {
         path: "/bondInventory",
-        component: require("./pages/bondInventory.vue").default
+        component: require("./pages/BondInventory.vue").default
         // meta: {
         //     requiresAuth: true
         // }

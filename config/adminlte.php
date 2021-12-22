@@ -262,7 +262,7 @@ return [
             'text' => 'System Configuration',
             'url' => '/SystemConfig',
             'icon' => 'fas fa-fw fas bi bi-gear',
-            'active_url' => 'SystemConfig'
+            'active_url' => '"SystemConfig"'
         ],
         // [
         //     'text' => 'console_log',

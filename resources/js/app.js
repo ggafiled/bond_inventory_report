@@ -43,9 +43,14 @@ const Toast = Swal.mixin({
 });
 
 const LoadingWait = Swal.mixin({
-    html: `<div id="LoadingWait_container" style="align-items: center; display: -ms-flexbox;display: -webkit-flex;display: flex;align-items: center;width: 100%;">
+    html:
+        `<div id="LoadingWait_container" style="align-items: center; display: -ms-flexbox;display: -webkit-flex;display: flex;align-items: center;width: 100%;">
      <img src="/images/loading.gif" width="68px" height="68px"/>
-     <div id="LoadingWaitText"><h3 class="p-0 m-0">`+ translate('actions.loading.wait') +`...</h3><small class="text-muted">`+ translate('actions.loading.waitdata') +`</small></div>
+     <div id="LoadingWaitText"><h3 class="p-0 m-0">` +
+        translate("actions.loading.wait") +
+        `...</h3><small class="text-muted">` +
+        translate("actions.loading.waitdata") +
+        `</small></div>
      </div>`,
     showCancelButton: false,
     showConfirmButton: false,
@@ -143,20 +148,22 @@ Vue.component(AlertError.name, AlertError);
 // หากจะใช้ก็แค่เพิ่ม attribute : active_url ในไฟล์ adminlte.config โดยใส่เป็น path เริ่มต้นที่จะให้แมทช์
 Vue.directive("active-when", {
     bind(el, binding, vnode) {
-        // console.log(binding.expression);
-        var regexActiveRoute = new RegExp(
-            "[/]?" +
-                binding.expression.replace(/\//g, "\\/") +
-                "([-a - zA - Z0 - 9() @: % _ + .~# ? & //=]*)"
-        );
-        if (
-            regexActiveRoute.test(
-                window.location.pathname + window.location.search
-            )
-        ) {
-            // console.log(el);
-            $(el).addClass("router-link-exact-active");
-        }
+        // console.log(binding.expression.replaceAll(/\//g, "\\/").replaceAll('"',''));
+        try {
+            var regexActiveRoute = new RegExp(
+                "[/]?" +
+                binding.expression.replaceAll(/\//g, "\\/").replaceAll('"','') +
+                    "([-a - zA - Z0 - 9() @: % _ + .~# ? & //=]*)"
+            );
+            if (
+                regexActiveRoute.test(
+                    window.location.pathname + window.location.search
+                )
+            ) {
+                // console.log(el);
+                $(el).addClass("router-link-exact-active");
+            }
+        } catch {}
     }
 });
 

@@ -33,7 +33,6 @@
                                                         v-tooltip.bottom="{
                                                             content:
                                                                 item.tooltip,
-                                                            offset: 100,
                                                             classes: [
                                                                 'tooltip-info'
                                                             ],
@@ -118,7 +117,6 @@
                                                         v-tooltip.bottom="{
                                                             content:
                                                                 item.tooltip,
-                                                            offset: 100,
                                                             classes: [
                                                                 'tooltip-info'
                                                             ],

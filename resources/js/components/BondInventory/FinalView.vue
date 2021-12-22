@@ -76,11 +76,7 @@ export default {
     props: ["forceRender", "results", "columns"],
     data() {
         return {
-            data() {
-                return {
-                    fileName: ""
-                };
-            },
+            fileName: "",
             buttons: [
                 {
                     title: "Print",

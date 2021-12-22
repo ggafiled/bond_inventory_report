@@ -7,7 +7,7 @@
                 @click="newModal"
             >
                 <i class="fa fa-plus-square"></i>
-                {{ translate("user.addnew") }}
+                {{ translate("systemconfig.addnew") }}
             </button>
             <data-tables
                 ref="items"
@@ -29,10 +29,10 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" v-show="!editmode">
-                            {{ translate("Create New Status") }}
+                            {{ translate("systemconfig.create.header") }}
                         </h5>
                         <h5 class="modal-title" v-show="editmode">
-                            {{ translate("Update Status") }}
+                            {{ translate("systemconfig.update.header") }}
                         </h5>
                         <button
                             type="button"
@@ -159,7 +159,7 @@
                                 class="btn btn-secondary"
                                 data-dismiss="modal"
                             >
-                                {{ translate("user.actions.close") }}
+                                {{ translate("systemconfig.actions.close") }}
                             </button>
                             <button
                                 v-show="editmode"
@@ -173,7 +173,7 @@
                                     role="status"
                                     aria-hidden="true"
                                 ></span>
-                                {{ translate("user.actions.update") }}
+                                {{ translate("systemconfig.actions.update") }}
                             </button>
                             <button
                                 v-show="!editmode"
@@ -187,7 +187,7 @@
                                     role="status"
                                     aria-hidden="true"
                                 ></span>
-                                {{ translate("user.actions.create") }}
+                                {{ translate("systemconfig.actions.create") }}
                             </button>
                         </div>
                     </form>
@@ -296,19 +296,19 @@ export default {
             this.onprogress = true;
             Swal.fire({
                 title: window.translate(
-                    "permission.alert.delete_building_title"
+                    "systemconfig.alert.delete_building_title"
                 ),
                 text:
-                    window.translate("permission.alert.delete_building_text") +
+                    window.translate("systemconfig.alert.delete_building_text") +
                     ` [${item.title.replace(/\b\w/g, l => l.toUpperCase())}]`,
                 showCancelButton: true,
                 confirmButtonColor: "#d33",
                 cancelButtonColor: "#3085d6",
                 cancelButtonText: window.translate(
-                    "permission.alert.delete_building_cancel_button_text"
+                    "systemconfig.alert.delete_building_cancel_button_text"
                 ),
                 confirmButtonText: window.translate(
-                    "permission.alert.delete_building_confirm_button_text"
+                    "systemconfig.alert.delete_building_confirm_button_text"
                 )
             }).then(result => {
                 // Send request to the server
@@ -318,10 +318,10 @@ export default {
                         .then(() => {
                             Swal.fire(
                                 window.translate(
-                                    "permission.alert.comfirm_delete_title"
+                                    "systemconfig.alert.comfirm_delete_title"
                                 ),
                                 window.translate(
-                                    "permission.alert.confirm_delete_message"
+                                    "systemconfig.alert.confirm_delete_message"
                                 ),
                                 "success"
                             );

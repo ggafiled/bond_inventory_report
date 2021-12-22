@@ -7,7 +7,7 @@
                         <div class="card-header">
                             <h3 class="card-title">
                                 <i class="bi bi-gear mr-1"></i
-                                >{{ translate("System Configuration") }}
+                                >{{ translate("systemconfig.header") }}
                             </h3>
                         </div>
                         <!-- /.card-header -->
