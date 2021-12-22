@@ -185,13 +185,13 @@ export default {
                     title: "COY Old",
                     subtitle: "A-A-1, E-AA-1",
                     tooltip:
-                        "COY Zone on the left side.<br/>It has been stored at shield id start with A-A-1 to Z-Z-1"
+                        "COY Zone on the left side.<br/>It has been stored at shield id start with A-A-1 to Z-Z-1. <br/> And E-AA-1 location"
                 },
                 {
                     title: "COY New",
-                    subtitle: "A-AA-1 ",
+                    subtitle: "A-AA-1, CLD",
                     tooltip:
-                        "COY Zone on the front side.<br/>It has been stored at shield id start with A-AA-1 to Z-ZZ-1"
+                        "COY Zone on the front side.<br/>It has been stored at shield id start with A-AA-1 to Z-ZZ-1 <br/> And Freeze Zone starting with CLD"
                 },
                 {
                     title: "Flyer",
@@ -201,7 +201,7 @@ export default {
                 },
                 {
                     title: "NCY",
-                    subtitle: "N-AA-1, F-NA-1",
+                    subtitle: "N-AA-1, F-NA-1, OT-CIB",
                     tooltip:
                         "Area of large shipment has been <br/> stored on the first floor."
                 }
@@ -301,7 +301,7 @@ export default {
                     });
                 setTimeout(() => {
                     LoadingWait.close();
-                }, 2000);
+                }, 700);
             }
             return true;
         },

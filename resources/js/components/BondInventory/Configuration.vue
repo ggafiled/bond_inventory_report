@@ -141,7 +141,7 @@
                                                                         }}</span
                                                                     >
                                                                     <span
-                                                                        class="d-inline-block text-break p-1"
+                                                                        class="d-inline-block p-1 text-wrap"
                                                                         >{{
                                                                             item.subtitle
                                                                         }}</span
@@ -262,7 +262,7 @@ export default {
 }
 .box {
     width: 150px;
-    height: 150px;
+    height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;

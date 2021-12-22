@@ -259,6 +259,11 @@ return [
             'icon' => 'fas fa-fw fas fa-dolly-flatbed',
         ],
         // [
+        //     'text' => 'System Configuration',
+        //     'url' => '/SystemConfig',
+        //     'icon' => 'fas fa-fw fas bi bi-gear',
+        // ],
+        // [
         //     'text' => 'console_log',
         //     'url' => '/console-log',
         //     'icon' => 'mdi mdi-console',

@@ -224,6 +224,11 @@ Vue.component(
     require("./components/partials/WindowPortal.vue").default
 );
 
+Vue.component(
+    "data-tables",
+    require("./components/datatable/DataTable.vue").default
+);
+
 Vue.component("not-found", require("./pages/NotFound.vue").default);
 
 import VuePhoneNumberInput from "vue-phone-number-input";

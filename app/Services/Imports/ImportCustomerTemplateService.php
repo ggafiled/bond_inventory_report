@@ -26,10 +26,10 @@ class ImportCustomerTemplateService
     public static function filterByLocation($spreadsheet = null, $bond_area = null)
     {
         $areaList = array(
-            "COY Old" => "([a-zA-z]{1}-[a-zA-z]{1}-[0-9]{1})|(E-[a-zA-z]{2}-[0-9]{1})", // All format A-A-1 and E-AA-1 edit on 21/12/2564
-            "COY New" => "(?![nfeNFE])[a-zA-Z]{1}-[a-zA-z]{2}-[0-9]{1}", // All format A-AA-1 except N-AA-1 and E-AA-1 edit on 21/12/2564
-            "Flyer" => "F-(?![nN])[a-zA-z]{2}-[0-9]{1}", // All F-AA-1 except F-NA-1 edit on 21/12/2564
-            "NCY" => "(N-[a-zA-z]{2}-[0-9]{1})|(F-N[a-zA-Z]{1}-[0-9]{1})", // Only N-AA-1 and F-NA-1 edit on 21/12/2564
+            "COY Old" => "((?![nN])[a-zA-z]{1}-[a-zA-z]{1}-[0-9]{1,5})|(E[a-zA-Z]?-[a-zA-z]{2}-[0-9]{1,5})", // All format A-A-1 and E-AA-1 edit on 21/12/2564
+            "COY New" => "((?![nfeNFE|(ex|EX)])[a-zA-Z]{1}-[a-zA-z]{2}-[0-9]{1,5})|(CLD.*)", // All format A-AA-1 except N-AA-1 and E-AA-1 edit on 21/12/2564 (?![nfeNFE])[a-zA-Z]{1}-[a-zA-z]{2}-[0-9]{1,5}
+            "Flyer" => "F-(?![nN])[a-zA-z]{2}-[0-9]{1,5}", // All F-AA-1 except F-NA-1 edit on 21/12/2564
+            "NCY" => "(N-[a-zA-z]{1,2}-[0-9]{1,5})|(F-N[a-zA-Z]{1}-[0-9]{1,5})|(OT.*)", // Only N-AA-1 and F-NA-1 edit on 21/12/2564 (N-[a-zA-z]{2}-[0-9]{1,5})|(F-N[a-zA-Z]{1}-[0-9]{1,5})
         );
 
         $regex = "";
@@ -56,18 +56,18 @@ class ImportCustomerTemplateService
                     if (preg_match_all('/[0-9]{10}/', substr($line, 0, 10))) {
                         $spreadsheet->push(
                             [
-                                "HAWB" => substr($line, 0, 10),
-                                "Location" => substr($line, 10, 10),
-                                "Arrival" => substr($line, 20, 10),
-                                "Days" => substr($line, 30, 5),
-                                "Consignee" => substr($line, 35, 31),
-                                "Orig" => substr($line, 66, 5),
-                                "Dest" => substr($line, 72, 8),
-                                "Weight" => substr($line, 79, 8),
-                                "Pcs" => substr($line, 87, 6),
-                                "Scanned" => substr($line, 92, 9),
-                                "Status" => substr($line, 101, 8),
-                                "Bond Reason" => substr($line, 109, 21),
+                                "HAWB" => trim(substr($line, 0, 11)),
+                                "Location" => trim(substr($line, 10, 11)),
+                                "Arrival" => trim(substr($line, 20, 11)),
+                                "Days" => trim(substr($line, 30, 6)),
+                                "Consignee" => trim(substr($line, 35, 32)),
+                                "Orig" => trim(substr($line, 66, 6)),
+                                "Dest" => trim(substr($line, 72, 9)),
+                                "Weight" => trim(substr($line, 79, 9)),
+                                "Pcs" => trim(substr($line, 87, 7)),
+                                "Scanned" => trim(substr($line, 92, 10)),
+                                "Status" => trim(substr($line, 101, 9)),
+                                "Bond Reason" => trim(substr($line, 109, 22)),
                             ],
                         );
                     }
@@ -103,18 +103,18 @@ class ImportCustomerTemplateService
                     if (preg_match_all('/[0-9]{10}/', substr(trim($line), 0, 10))) {
                         $spreadsheet->push(
                             [
-                                "HAWB" => substr($line, 0, 10),
-                                "Location" => substr($line, 10, 10),
-                                "Arrival" => substr($line, 20, 10),
-                                "Days" => substr($line, 30, 5),
-                                "Consignee" => substr($line, 35, 31),
-                                "Orig" => substr($line, 66, 5),
-                                "Dest" => substr($line, 72, 8),
-                                "Weight" => substr($line, 79, 8),
-                                "Pcs" => substr($line, 87, 6),
-                                "Scanned" => substr($line, 92, 9),
-                                "Status" => substr($line, 101, 8),
-                                "Bond Reason" => substr($line, 109, 21),
+                                "HAWB" => trim(substr($line, 0, 11)),
+                                "Location" => trim(substr($line, 10, 11)),
+                                "Arrival" => trim(substr($line, 20, 11)),
+                                "Days" => trim(substr($line, 30, 6)),
+                                "Consignee" => trim(substr($line, 35, 32)),
+                                "Orig" => trim(substr($line, 66, 6)),
+                                "Dest" => trim(substr($line, 72, 9)),
+                                "Weight" => trim(substr($line, 79, 9)),
+                                "Pcs" => trim(substr($line, 87, 7)),
+                                "Scanned" => trim(substr($line, 92, 10)),
+                                "Status" => trim(substr($line, 101, 9)),
+                                "Bond Reason" => trim(substr($line, 109, 22)),
                             ],
                         );
                     }
@@ -125,7 +125,7 @@ class ImportCustomerTemplateService
 
         // Filter Status and Only selected location
         $spreadsheet = $spreadsheet->filter(function ($item) {
-            return preg_match("/[a-zA-Z]{1}\/BRKR/", $item["Status"]);
+            return preg_match("/[a-zA-Z]{1}\/(BRKR|BTO)/", $item["Status"]);
         });
 
         $spreadsheet = ImportCustomerTemplateService::filterByLocation($spreadsheet, $bond_area);
