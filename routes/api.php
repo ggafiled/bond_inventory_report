@@ -31,6 +31,8 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->group(function () {
     Route::post('change-password', 'ProfileController@changePassword');
     Route::get('permission/list', 'PermissionController@list');
     Route::post('/import/getInfo', 'ImPortFileController@getInfo');
+    Route::get('/bondstatus/getInfo', 'BondStatusConfigController@getStatusInfo');
+    Route::get('/bondzone/getInfo', 'BondZoneConfigController@getZoneInfo');
 
     Route::apiResources([
         'user' => 'UserController',

@@ -233,12 +233,12 @@ export default {
     methods: {
         async loadStatusList() {
             await axios
-                .get("/bondstatus")
+                .get("/bondstatus/getInfo")
                 .then(({ data }) => (this.statusList = data.data));
         },
         async loadZoneList() {
             await axios
-                .get("/bondzone")
+                .get("/bondzone/getInfo")
                 .then(({ data }) => (this.areaList = data.data));
         },
         async checkStepOne() {

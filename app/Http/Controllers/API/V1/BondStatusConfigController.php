@@ -25,6 +25,21 @@ class BondStatusConfigController extends BaseController
     public function index()
     {
         try {
+            $status = StatusConfig::withTrashed()->get();
+            return $this->sendResponse($status, trans('actions.get.success'));
+        } catch (Exception $ex) {
+            return $this->sendError([], trans('actions.get.failed'));
+        }
+    }
+
+    /**
+     * Retreive data
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getStatusInfo()
+    {
+        try {
             $status = StatusConfig::get();
             return $this->sendResponse($status, trans('actions.get.success'));
         } catch (Exception $ex) {
@@ -52,9 +67,9 @@ class BondStatusConfigController extends BaseController
     {
         try {
             $status = StatusConfig::create([
-                'title' => $request['title'],
-                'tooltip' => $request['tooltip'],
-                'format' => $request['format'],
+                'title' => trim(strtoupper($request['title'])),
+                'tooltip' => trim($request['tooltip']),
+                'format' => trim($request['format']),
             ]);
             return $this->sendResponse($status, trans('actions.store.success'));
         } catch (Exception $ex) {
@@ -102,7 +117,11 @@ class BondStatusConfigController extends BaseController
                 $zone->deleted_at = Carbon::now();
             }
 
-             $zone->update($request->all());
+             $zone->update([
+                'title' => trim(strtoupper($request['title'])),
+                'tooltip' => trim($request['tooltip']),
+                'format' => trim($request['format']),
+            ]);
 
             return $this->sendResponse($zone, trans('actions.updated.success'));
         } catch (Exception $ex) {

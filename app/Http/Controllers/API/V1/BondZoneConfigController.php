@@ -25,6 +25,21 @@ class BondZoneConfigController extends BaseController
     public function index()
     {
         try {
+            $status = ZoneConfig::withTrashed()->get();
+            return $this->sendResponse($status, trans('actions.get.success'));
+        } catch (Exception $ex) {
+            return $this->sendError([], trans('actions.get.failed'));
+        }
+    }
+
+    /**
+     * Retreive data
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getZoneInfo()
+    {
+        try {
             $status = ZoneConfig::get();
             return $this->sendResponse($status, trans('actions.get.success'));
         } catch (Exception $ex) {
@@ -52,10 +67,10 @@ class BondZoneConfigController extends BaseController
     {
         try {
             $zone = ZoneConfig::create([
-                'title' => $request['title'],
-                'subtitle' => $request['subtitle'],
-                'tooltip' => $request['tooltip'],
-                'format' => $request['format'],
+                'title' => trim(strtoupper($request['title'])),
+                'subtitle' => trim($request['subtitle']),
+                'tooltip' => trim($request['tooltip']),
+                'format' => trim($request['format']),
             ]);
             return $this->sendResponse($zone, trans('actions.store.success'));
         } catch (Exception $ex) {
@@ -103,7 +118,12 @@ class BondZoneConfigController extends BaseController
                 $zone->deleted_at = Carbon::now();
             }
 
-             $zone->update($request->all());
+             $zone->update([
+                'title' => trim(strtoupper($request['title'])),
+                'subtitle' => trim($request['subtitle']),
+                'tooltip' => trim($request['tooltip']),
+                'format' => trim($request['format']),
+            ]);
 
             return $this->sendResponse($zone, trans('actions.updated.success'));
         } catch (Exception $ex) {
