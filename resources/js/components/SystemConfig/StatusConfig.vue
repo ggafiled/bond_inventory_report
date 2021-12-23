@@ -112,6 +112,69 @@
                             </div>
 
                             <div class="form-group">
+                                <label>Service Type</label>
+
+                                <select
+                                    class="custom-select custom-select-sm"
+                                    aria-label="Bond Report"
+                                    v-model="form.type"
+                                >
+                                    <option value="bond"
+                                        >Bond Report</option
+                                    >
+                                    <option value="bfs"
+                                        >BFS Report</option
+                                    >
+                                </select>
+
+                                <has-error
+                                    :form="form"
+                                    field="type"
+                                ></has-error>
+                            </div>
+                            <div class="form-group">
+                                <label>Use Bond Location Filter</label>
+
+                                <div
+                                    class="form-check form-check-inline cursor-pointer"
+                                >
+                                    <input
+                                        class="form-check-input cursor-pointer"
+                                        type="radio"
+                                        id="inlineRadio1"
+                                        value="1"
+                                        v-model="form.use_zone_filter"
+                                    />
+                                    <label
+                                        class="form-check-label cursor-pointer"
+                                        for="inlineRadio1"
+                                        >Enable</label
+                                    >
+                                </div>
+                                <div
+                                    class="form-check form-check-inline cursor-pointer"
+                                >
+                                    <input
+                                        class="form-check-input cursor-pointer"
+                                        id="inlineRadio2"
+                                        type="radio"
+                                        value="0"
+                                        v-model="form.use_zone_filter"
+                                    />
+                                    <label
+                                        class="form-check-label cursor-pointer"
+                                        for="inlineRadio2"
+                                        >Disable</label
+                                    >
+                                </div>
+
+                                <has-error
+                                    :form="form"
+                                    field="use_zone_filter"
+                                ></has-error>
+                            </div>
+
+                            <div class="form-group">
                                 <label>Item Status</label>
 
                                 <div
@@ -137,7 +200,7 @@
                                         class="form-check-input cursor-pointer"
                                         id="inlineRadio2"
                                         type="radio"
-                                        value="2"
+                                        value="0"
                                         v-model="form.item_status"
                                     />
                                     <label
@@ -243,7 +306,9 @@ export default {
                 title: "",
                 format: "",
                 tooltip: "",
-                item_status: 1
+                type: "bond",
+                item_status: 1,
+                use_zone_filter: 1
             })
         };
     },
@@ -299,7 +364,9 @@ export default {
                     "systemconfig.alert.delete_building_title"
                 ),
                 text:
-                    window.translate("systemconfig.alert.delete_building_text") +
+                    window.translate(
+                        "systemconfig.alert.delete_building_text"
+                    ) +
                     ` [${item.title.replace(/\b\w/g, l => l.toUpperCase())}]`,
                 showCancelButton: true,
                 confirmButtonColor: "#d33",

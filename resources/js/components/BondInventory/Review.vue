@@ -16,41 +16,8 @@
                                 filter-row
                                 v-model="result"
                             >
-                                <vue-excel-column field="HAWB" label="HAWB" />
-                                <vue-excel-column
-                                    field="Location"
-                                    label="Location"
-                                />
-                                <vue-excel-column
-                                    field="Arrival"
-                                    label="Arrival"
-                                />
-                                <vue-excel-column field="Days" label="Days" />
-                                <vue-excel-column
-                                    field="Consignee"
-                                    label="Consignee"
-                                    width="450px"
-                                />
-                                <vue-excel-column field="Orig" label="Orig" />
-                                <vue-excel-column field="Dest" label="Dest" />
-                                <vue-excel-column
-                                    field="Weight"
-                                    label="Weight"
-                                />
-                                <vue-excel-column field="Pcs" label="Pcs" />
-                                <vue-excel-column
-                                    field="Scanned"
-                                    label="Scanned"
-                                />
-                                <vue-excel-column
-                                    field="Status"
-                                    label="Status"
-                                />
-                                <vue-excel-column
-                                    field="Bond Reason"
-                                    label="Bond Reason"
-                                    width="150px"
-                                />
+                                <vue-excel-column v-for="(item, i) in columns" :key="i" :field="item.field" :label="item.label" :width="item.width" />
+                                
                             </vue-excel-editor>
                         </div>
                     </div>
@@ -62,7 +29,7 @@
 
 <script>
 export default {
-    props: ["forceRender","result"],
+    props: ["forceRender","result", "columns"],
     methods: {
         exportTable() {
             const format = "xlsx";

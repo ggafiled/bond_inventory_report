@@ -59,8 +59,8 @@
 </template>
 
 <script>
-import StatusConfig from "../components/SystemConfig/StatusConfig.vue";
-import ZoneConfig from "../components/SystemConfig/ZoneConfig.vue";
+import StatusConfig from "../components/systemconfig/StatusConfig.vue";
+import ZoneConfig from "../components/systemconfig/ZoneConfig.vue";
 export default {
     title: "System Configuration -",
     components: {

@@ -25,9 +25,16 @@
                                             "bondinventory.header_working_on"
                                         )
                                     }}
-                                    {{ selectedStatus }}
+                                    {{ selectedStatusShow }}
                                     <span v-if="selectedArea.length">
-                                        {{ "\\ " + selectedArea.join(", ") }}
+                                        {{
+                                            "\\ " + selectedAreaShow.join(", ")
+                                        }}
+                                    </span>
+                                    <span v-if="file">
+                                        - ({{
+                                             file.name
+                                        }})
                                     </span>
                                 </div>
                             </div>
@@ -72,6 +79,7 @@
                                         :forceRender="forceRender"
                                         :statusList="statusList"
                                         :areaList="areaList"
+                                        :notUseZoneFilter="notUseZoneFilter"
                                         @selectedStatus="selectedStatusHandler"
                                         @selectedArea="selectedAreaHandler"
                                     >
@@ -82,6 +90,7 @@
                                         ref="review"
                                         :forceRender="forceRender"
                                         :result="results"
+                                        :columns="columns_forshow"
                                         @table-generated="tableGenerated"
                                     >
                                     </Review>
@@ -90,7 +99,7 @@
                                     <FinalView
                                         :forceRender="forceRender"
                                         :results="results"
-                                        :columns="columns"
+                                        :columns_forexport="columns_forexport"
                                     >
                                     </FinalView>
                                 </tab-content>
@@ -165,10 +174,10 @@
 </template>
 
 <script>
-import FileImport from "../components/BondInventory/FileImport.vue";
-import Configuration from "../components/BondInventory/Configuration.vue";
-import Review from "../components/BondInventory/Review.vue";
-import FinalView from "../components/BondInventory/FinalView.vue";
+import FileImport from "../components/bondinventory/FileImport.vue";
+import Configuration from "../components/bondinventory/Configuration.vue";
+import Review from "../components/bondinventory/Review.vue";
+import FinalView from "../components/bondinventory/FinalView.vue";
 import anime from "animejs/lib/anime.es.js";
 
 export default {
@@ -186,48 +195,37 @@ export default {
             statusList: null,
             areaList: null,
             file: null,
-            selectedStatus: "",
+            selectedStatus: null,
+            selectedStatusShow: "",
             selectedArea: [],
+            selectedAreaShow: "",
             results: [],
             grid: null,
-            columns: [
-                {
-                    label: "HAWB",
-                    field: "HAWB"
-                },
-                {
-                    label: "Location",
-                    field: "Location"
-                },
-                {
-                    label: "Consignee Name",
-                    field: "Consignee"
-                },
-                {
-                    label: "Weight",
-                    field: "Weight"
-                },
-                {
-                    label: "Pcs",
-                    field: "Pcs"
-                },
-                {
-                    label: "Scanned",
-                    field: "Scanned"
-                },
-                {
-                    label: "Status",
-                    field: "Status"
-                }
-            ]
+            columns_forexport: [],
+            columns_forshow: [],
+            notUseZoneFilter: false
         };
     },
     computed: {
         canShowWorkingOn: function() {
-            return (
-                this.selectedStatus.length > 0 &&
-                this.$refs.wizard.activeTabIndex > 0
-            );
+            return this.selectedStatus && this.$refs.wizard.activeTabIndex > 0;
+        }
+    },
+    watch: {
+        selectedStatus: function(newVal, oldVal) {
+            this.selectedStatusShow = this.statusList.filter(item => {
+                return item.id == this.selectedStatus;
+            })[0].title;
+            this.notUseZoneFilter = !Boolean(parseInt(this.statusList.filter(item => {
+                return item.id == this.selectedStatus;
+            })[0].use_zone_filter));
+        },
+        selectedArea: function(newVal, oldVal) {
+            this.selectedAreaShow = this.selectedArea.map(zone => {
+                return this.areaList.filter(item => {
+                    return item.id == zone;
+                })[0].title;
+            });
         }
     },
     methods: {
@@ -258,7 +256,7 @@ export default {
                     title: translate("bondinventory.alert_not_import_file_yet")
                 });
                 return false;
-            } else if (this.selectedStatus.trim() == "") {
+            } else if (this.selectedStatus == null) {
                 Toast.fire({
                     icon: "error",
                     title: translate("initails status can't be set")
@@ -275,6 +273,7 @@ export default {
                 form.append("file", this.file);
                 form.append("bond_status", this.selectedStatus);
                 form.append("bond_area", this.selectedArea);
+                form.append("type", this.selectedType);
                 const headers = { "Content-Type": "multipart/form-data" };
                 LoadingWait.fire();
                 await axios
@@ -283,6 +282,12 @@ export default {
                         // console.log(response.data.data);
                         this.results = JSON.parse(
                             response.data.data.fileInfo.results
+                        );
+                        this.columns_forexport = JSON.parse(
+                            response.data.data.fileInfo.columns_forexport
+                        );
+                        this.columns_forshow = JSON.parse(
+                            response.data.data.fileInfo.columns_forshow
                         );
                         // this.file = null;
                         // this.$refs.import.removeFile();
@@ -336,8 +341,8 @@ export default {
             this.onprogress = false;
             this.statusList = this.statusList;
             this.areaList = this.areaList;
-            this.selectedStatus = this.statusList[0].title;
-            this.selectedArea = [this.areaList[0].title];
+            this.selectedStatus = this.statusList[0].id;
+            this.selectedArea = [this.areaList[0].id];
             this.results = [];
             this.removeFile();
             this.$refs.wizard.navigateToTab(0);

@@ -19,6 +19,7 @@ class CreateZoneConfigsTable extends Migration
             $table->string('subtitle');
             $table->string('tooltip');
             $table->string('format');
+            $table->string('type');
             $table->timestamps();
             $table->softDeletes();
         });

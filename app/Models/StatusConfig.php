@@ -11,6 +11,6 @@ class StatusConfig extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'title', 'tooltip', 'format'
+        'title', 'tooltip', 'format', 'type'
     ];
 }

@@ -70,6 +70,8 @@ class BondStatusConfigController extends BaseController
                 'title' => trim(strtoupper($request['title'])),
                 'tooltip' => trim($request['tooltip']),
                 'format' => trim($request['format']),
+                'type' => trim($request['type']),
+                'use_zone_filter' => (int) trim($request['use_zone_filter']),
             ]);
             return $this->sendResponse($status, trans('actions.store.success'));
         } catch (Exception $ex) {
@@ -121,6 +123,8 @@ class BondStatusConfigController extends BaseController
                 'title' => trim(strtoupper($request['title'])),
                 'tooltip' => trim($request['tooltip']),
                 'format' => trim($request['format']),
+                'type' => trim($request['type']),
+                'use_zone_filter' => (int) trim($request['use_zone_filter']),
             ]);
 
             return $this->sendResponse($zone, trans('actions.updated.success'));

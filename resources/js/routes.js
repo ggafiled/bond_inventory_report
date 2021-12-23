@@ -8,14 +8,14 @@ export default [
     // },
     {
         path: "/bondInventory",
-        component: require("./pages/BondInventory.vue").default
+        component: require("./pages/bondinventory.vue").default
         // meta: {
         //     requiresAuth: true
         // }
     },
     {
         path: "/SystemConfig",
-        component: require("./pages/SystemConfig.vue").default,
+        component: require("./pages/systemconfig.vue").default,
         // meta: {
         //     requiresAuth: true
         // }

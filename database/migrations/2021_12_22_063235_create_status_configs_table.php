@@ -18,6 +18,8 @@ class CreateStatusConfigsTable extends Migration
             $table->string('title');
             $table->string('tooltip');
             $table->string('format');
+            $table->string('type');
+            $table->integer('use_zone_filter');
             $table->timestamps();
             $table->softDeletes();
         });

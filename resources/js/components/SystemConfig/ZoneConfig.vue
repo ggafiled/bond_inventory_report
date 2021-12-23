@@ -129,6 +129,28 @@
                             </div>
 
                             <div class="form-group">
+                                <label>Service Type</label>
+
+                                <select
+                                    class="custom-select custom-select-sm"
+                                    aria-label="Bond"
+                                    v-model="form.type"
+                                >
+                                    <option value="bond"
+                                        >Bond Report</option
+                                    >
+                                    <option value="bfs"
+                                        >BFS Report</option
+                                    >
+                                </select>
+
+                                <has-error
+                                    :form="form"
+                                    field="type"
+                                ></has-error>
+                            </div>
+
+                            <div class="form-group">
                                 <label>Item Status</label>
 
                                 <div
@@ -154,7 +176,7 @@
                                         class="form-check-input cursor-pointer"
                                         id="inlineRadio2"
                                         type="radio"
-                                        value="2"
+                                        value="0"
                                         v-model="form.item_status"
                                     />
                                     <label
@@ -227,6 +249,7 @@ export default {
                 subtitle: "",
                 tooltip: "",
                 format: "",
+                type:"bond",
                 item_status: 1
             }),
             options_for_zone: {

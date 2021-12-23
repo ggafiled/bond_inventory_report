@@ -13,7 +13,7 @@
                             <v-btn class="mb-3" block x-large>
                                 <vue-excel-xlsx
                                     :data="results"
-                                    :columns="columns"
+                                    :columns="columns_forexport"
                                     :filename="fileName"
                                     sheetname="Results"
                                     class="w-100"
@@ -47,7 +47,7 @@
                         >
                             <tr>
                                 <th class="mw-100">NO</th>
-                                <th v-for="(item, i) in columns" :key="i">
+                                <th v-for="(item, i) in columns_forexport" :key="i">
                                     {{ item.label }}
                                 </th>
                             </tr>
@@ -73,7 +73,7 @@
 import moment from "moment";
 export default {
     title: "Final View -",
-    props: ["forceRender", "results", "columns"],
+    props: ["forceRender", "results", "columns_forexport"],
     data() {
         return {
             fileName: "",

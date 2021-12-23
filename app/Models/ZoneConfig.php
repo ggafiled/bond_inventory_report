@@ -11,6 +11,6 @@ class ZoneConfig extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'title', 'subtitle', 'tooltip', 'format'
+        'title', 'subtitle', 'tooltip', 'format', 'type'
     ];
 }

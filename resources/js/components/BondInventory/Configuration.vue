@@ -50,7 +50,7 @@
                                                         <label>
                                                             <input
                                                                 type="radio"
-                                                                :value="item.title"
+                                                                :value="item.id"
                                                                 v-model="
                                                                     selectedStatus
                                                                 "
@@ -78,7 +78,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6 m-0 p-0">
-                                    <div class="card">
+                                    <div class="card" :class="{disabledbutton : notUseZoneFilter}">
                                         <div class="card-header">
                                             <h3 class="card-title">
                                                 {{
@@ -136,7 +136,7 @@
                                                                 type="checkbox"
                                                                 :id="item.title"
                                                                 :value="
-                                                                    item.title
+                                                                    item.id
                                                                 "
                                                                 v-model="
                                                                     selectedArea
@@ -181,7 +181,7 @@
 
 <script>
 export default {
-    props: ["forceRender", "statusList", "areaList"],
+    props: ["forceRender", "statusList", "areaList", "notUseZoneFilter"],
     components: {},
     data() {
         return {
@@ -199,13 +199,13 @@ export default {
     },
     watch: {
         statusList: function(newVal, oldVal) {
-            this.selectedStatus = newVal[0].title;
+            this.selectedStatus = newVal[0].id;
         },
         selectedStatus: function(newVal, oldVal) {
             this.$emit("selectedStatus", newVal);
         },
         areaList: function(newVal, oldVal) {
-            this.selectedArea = [newVal[0].title];
+            this.selectedArea = [newVal[0].id];
         },
         selectedArea: function(newVal, oldVal) {
             this.$emit("selectedArea", newVal);
@@ -222,18 +222,18 @@ export default {
                 var selected = [];
                 if (value) {
                     this.areaList.forEach(area => {
-                        selected.push(area.title);
+                        selected.push(area.id);
                     });
                     this.selectedArea = selected;
                 }else{
-                    this.selectedArea = [this.areaList[0].title];
+                    this.selectedArea = [this.areaList[0].id];
                 }
             }
-        }
+        },
     },
     mounted() {
-        this.selectedStatus = this.statusList[0].title;
-        this.selectedArea = [this.areaList[0].title];
+        this.selectedStatus = this.statusList[0].id;
+        this.selectedArea = [this.areaList[0].id];
 
         this.$emit("selectedStatus", this.selectedStatus);
         this.$emit("selectedArea", this.selectedArea);
