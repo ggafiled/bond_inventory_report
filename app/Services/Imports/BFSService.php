@@ -25,16 +25,20 @@ class BFSService
     public static function filterStatus($file, $status_format)
     {
         /** This medthod for filter only BRKR status */
-
         $spreadsheet = new Collection();
+        $flight_number = array();
         if ($_file = fopen($file, "r")) {
             while (!feof($_file)) {
                 $line = fgets($_file);
                 if (trim($line)) {
+                    if(preg_match_all('/(TDOC:(.*))(Flight:(.*))(From:(.*))(Arrival:(.*))(Folio:(.*))/', trim($line))){
+                        preg_match_all('/(TDOC:(?<TDOC>.*))(Flight:(?<Flight>.*))(From:(?<From>.*))(Arrival:(?<Arrival>.*))(Folio:(?<Folio>.*))/', trim($line), $flight_number);
+                    }
                     // $line = str_replace("\r\n", '', $line);
                     if (preg_match_all('/[0-9]{10}/', substr(trim($line), 0, 11))) {
                         $spreadsheet->push(
                             [
+                                "Flight" => trim($flight_number["Flight"][0]),
                                 "HAWB" => trim(substr($line, 0, 11)),
                                 "Pieces" => trim(substr($line, 10, 10)),
                                 "Weight" => trim(substr($line, 20, 8)),
@@ -61,6 +65,10 @@ class BFSService
         $spreadsheet = $spreadsheet->values()->toJson();
         $columns_forexport = [
             [
+                'label' => 'Flight',
+                'field' => 'Flight',
+            ],
+            [
                 'label' => 'HAWB',
                 'field' => 'HAWB',
             ],
@@ -83,6 +91,10 @@ class BFSService
         ];
         $columns_forshow = [
             [
+                'label' => 'Flight',
+                'field' => 'Flight',
+            ],
+            [
                 'label' => 'HAWB',
                 'field' => 'HAWB',
             ],
@@ -101,7 +113,7 @@ class BFSService
             [
                 'label' => 'Shipper',
                 'field' => 'Shipper',
-                'width' => '450px'
+                'width' => '450px',
             ],
             [
                 'label' => 'Dest',
@@ -114,7 +126,7 @@ class BFSService
             [
                 'label' => 'Consignee Name',
                 'field' => 'Consignee',
-                'width' => '450px'
+                'width' => '450px',
             ],
             [
                 'label' => 'Status',

@@ -31,7 +31,6 @@ class BondService
     public static function filterStatus($file, $status_format, $zone_format)
     {
         /** This medthod for filter only BRKR status */
-
         $spreadsheet = new Collection();
         if ($_file = fopen($file, "r")) {
             while (!feof($_file)) {
@@ -123,7 +122,7 @@ class BondService
             [
                 'label' => 'Consignee Name',
                 'field' => 'Consignee',
-                'width' => '450px'
+                'width' => '450px',
             ],
             [
                 'label' => 'Orig',
@@ -154,7 +153,7 @@ class BondService
             [
                 'label' => 'Bond Reason',
                 'field' => 'Bond Reason',
-                'width' => '150px'
+                'width' => '150px',
             ],
         ];
 

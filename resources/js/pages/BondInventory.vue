@@ -194,7 +194,7 @@ export default {
             forceRender: true,
             statusList: null,
             areaList: null,
-            file: null,
+            file: [],
             selectedStatus: null,
             selectedStatusShow: "",
             selectedArea: [],
@@ -240,7 +240,9 @@ export default {
                 .then(({ data }) => (this.areaList = data.data));
         },
         async checkStepOne() {
+            console.log(this.file);
             if (this.file == null) {
+                
                 Toast.fire({
                     icon: "error",
                     title: translate("bondinventory.alert_not_import_file_yet")

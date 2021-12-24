@@ -20,7 +20,6 @@ class ImPortFileController extends BaseController
     {
         // dd($request->all());
         $workingInType = StatusConfig::where('id',$request->input('bond_status'))->first();
-        // dd($workingInType);
         try {
             switch(strtolower($workingInType->type)){
                 case "bond":

@@ -79,7 +79,7 @@ export default {
                 clickable: true,
                 thumbnailWidth: 150,
                 maxFilesize: 10000000,
-                maxFiles: 1,
+                maxFiles: 5,
                 duplicateCheck: true,
                 addRemoveLinks: true,
                 acceptedFiles: ".csv,.txt",
