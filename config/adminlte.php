@@ -255,14 +255,14 @@ return [
         ['header' => 'MENU'],
         [
             'text' => 'Bond Inventory',
-            'url' => '/BondInventory',
+            'url' => '/bondInventory',
             'icon' => 'fas fa-fw fas fa-dolly-flatbed',
         ],
         [
             'text' => 'System Configuration',
-            'url' => '/SystemConfig',
+            'url' => '/systemConfig',
             'icon' => 'fas fa-fw fas bi bi-gear',
-            'active_url' => '"SystemConfig"'
+            'active_url' => '"systemConfig"'
         ],
         // [
         //     'text' => 'console_log',

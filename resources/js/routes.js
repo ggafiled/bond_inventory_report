@@ -14,7 +14,7 @@ export default [
         // }
     },
     {
-        path: "/SystemConfig",
+        path: "/systemConfig",
         component: require("./pages/systemconfig.vue").default,
         // meta: {
         //     requiresAuth: true

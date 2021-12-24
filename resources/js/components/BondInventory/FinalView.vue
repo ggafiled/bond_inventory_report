@@ -47,19 +47,21 @@
                         >
                             <tr>
                                 <th class="mw-100">NO</th>
-                                <th v-for="(item, i) in columns_forexport" :key="i">
+                                <th
+                                    v-for="(item, i) in columns_forexport"
+                                    :key="i"
+                                >
                                     {{ item.label }}
                                 </th>
                             </tr>
                             <tr v-for="(item, i) in results" :key="i">
                                 <td class="mw-100">{{ i + 1 }}</td>
-                                <td>{{ item.HAWB }}</td>
-                                <td>{{ item.Location }}</td>
-                                <td>{{ item.Consignee }}</td>
-                                <td>{{ item.Weight }}</td>
-                                <td class="mw-100">{{ item.Pcs }}</td>
-                                <td class="mw-100">{{ item.Scanned }}</td>
-                                <td class="mw-100">{{ item.Status }}</td>
+                                <td
+                                    v-for="(key, i) in columns_forexport"
+                                    :key="i"
+                                >
+                                    {{ item[key.field] }}
+                                </td>
                             </tr>
                         </table>
                     </div>

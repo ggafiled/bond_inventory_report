@@ -23,7 +23,7 @@ Auth::routes([
     'login' => true]);
 
 Route::get('/', function () {
-    return redirect('/BondInventory');
+    return redirect('/bondInventory');
 });
 
 // Route::get('/home', function () {
